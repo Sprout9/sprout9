@@ -11,5 +11,5 @@ output "aws_eip_public_dns" {
 
 output "aws_eip_public_ip" {
   description = "Public ip of elastic IP"
-  value       = module.forms.aws_eip.eip.public_ip
+  value       = module.forms.aws_eip_public_ip
 }
