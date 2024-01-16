@@ -1,0 +1,19 @@
+name: Terraform stage
+
+on:
+  workflow_dispatch:
+
+jobs:
+  push_to_registry:
+    name: Update Infra Resources
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Run Terraform
+        run: terraform init
+        run: terraform apply -auto-approve -var public_key="{{ vars.ED25519_PUBLIC_KEY }}"
