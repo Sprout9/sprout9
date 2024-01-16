@@ -15,5 +15,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Run Terraform
-        run: terraform init
-        run: terraform apply -auto-approve -var public_key="{{ vars.ED25519_PUBLIC_KEY }}"
+        run: |
+          terraform init
+          terraform apply -auto-approve -var public_key="{{ vars.ED25519_PUBLIC_KEY }}"
