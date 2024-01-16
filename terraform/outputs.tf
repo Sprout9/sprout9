@@ -1,7 +1,7 @@
 
 output "aws_ami_name" {
   description = "Amazon Machine Image (AMI) Name"
-  value       = data.aws_ami.debian.name
+  value       = data.aws_ami.debian.id
 }
 
 # output "aws_eip_public_dns" {
