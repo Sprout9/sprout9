@@ -28,13 +28,13 @@ jobs:
         run: |
           terraform init
           terraform apply -auto-approve
-          terraform output -json | jq -r .aws_eip_public_ip.value > artifacts/ip.txt
+          terraform output -json | jq -r .aws_eip_public_ip.value > ip.txt
           
       - name: Upload IP artifact
         uses: actions/upload-artifact@v2
         with:
           name: ip-file
-          path: artifacts/ip.txt
+          path: terraform/ip.txt
 
   push_to_registry:
     name: Push Docker image to Docker Hub
