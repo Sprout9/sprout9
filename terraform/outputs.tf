@@ -4,7 +4,7 @@ output "aws_ami_name" {
   value       = data.aws_ami.debian.id
 }
 
-# output "aws_eip_public_dns" {
-#   description = "Instance EIP Public DNS"
-#   value       = module.forms.aws_eip_public_dns
-# }
+output "aws_eip_public_dns" {
+  description = "Instance EIP Public DNS"
+  value       = module.forms.aws_eip_public_dns
+}
