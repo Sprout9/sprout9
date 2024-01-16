@@ -1,6 +1,5 @@
 provider "aws" {
   region = var.region
-  # profile = "sprout9"
 }
 
 # Uncomment after initial provisioning of resources
@@ -11,7 +10,6 @@ terraform {
     region         = "eu-west-2"
     dynamodb_table = "sprout9-tfstate-lock"
     encrypt        = true
-    # profile        = "sprout9"
   }
 }
 
@@ -84,13 +82,13 @@ data "aws_ami" "debian" {
 }
 
 # forms module
-# module "forms" {
-#   source        = "./modules/single-instance"
-#   instance_type = var.instance_type
-#   ami           = data.aws_ami.debian.name
-#   name          = "forms"
-#   region        = var.region
-#   volume_size   = var.volume_size
-#   public_key    = var.public_key
-# }
+module "forms" {
+  source        = "./modules/single-instance"
+  instance_type = var.instance_type
+  ami           = "debian-12-arm64-20240102-1614"
+  name          = "forms"
+  region        = var.region
+  volume_size   = var.volume_size
+  public_key    = var.public_key
+}
 

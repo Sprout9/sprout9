@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  push_to_registry:
+  apply_terraform_changes:
     name: Update Infra Resources
     runs-on: ubuntu-latest
     steps:
@@ -23,6 +23,8 @@ jobs:
         run: |
           terraform init
           terraform apply -auto-approve
+
+  
 
 
 # # From: https://docs.github.com/en/actions/publishing-packages/publishing-docker-images
