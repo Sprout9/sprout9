@@ -82,13 +82,13 @@ data "aws_ami" "debian" {
 }
 
 # forms module
-# module "forms" {
-#   source        = "./modules/single-instance"
-#   instance_type = var.instance_type
-#   ami           = "debian-12-arm64-20240102-1614"
-#   name          = "forms"
-#   region        = var.region
-#   volume_size   = var.volume_size
-#   public_key    = var.public_key
-# }
+module "forms" {
+  source        = "./modules/single-instance"
+  instance_type = var.instance_type
+  ami           = "ami-00f15b1cbd44eb7cc"
+  name          = "forms"
+  region        = var.region
+  volume_size   = var.volume_size
+  public_key    = var.public_key
+}
 
