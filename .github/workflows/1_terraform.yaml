@@ -16,6 +16,10 @@ jobs:
 
       - name: Run Terraform
         working-directory: ./terraform
+        env:
+          TF_VAR_public_key: {{ vars.ED25519_PUBLIC_KEY }}
+          AWS_ACCESS_KEY_ID: {{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: {{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           terraform init
           terraform apply -auto-approve -var public_key="{{ vars.ED25519_PUBLIC_KEY }}"
