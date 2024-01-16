@@ -22,7 +22,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           terraform init
-          terraform apply -auto-approve -var public_key="{{ vars.ED25519_PUBLIC_KEY }}"
+          terraform apply -auto-approve
 
 
 # # From: https://docs.github.com/en/actions/publishing-packages/publishing-docker-images
