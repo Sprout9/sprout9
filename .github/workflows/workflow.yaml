@@ -56,12 +56,12 @@ jobs:
       - name: Setup SSH 
         shell: bash
         run: |
-          HOST_IP=$(cat ip-file/ip.txt)
+          HOST_IP=$(cat ${GITHUB_WORKSPACE}/ip.txt)
           eval `ssh-agent -s`
           mkdir -p /home/runner/.ssh/
           echo -e "${{secrets.ED25519_PRIVATE_KEY}}" > /home/runner/.ssh/id_ed25519
           chmod 700 /home/runner/.ssh/id_ed25519
-          ssh-keyscan -t rsa,dsa,ecdsa,ed25519 $(cat ip-file/ip.txt) >> /home/runner/.ssh/known_hosts
+          ssh-keyscan -t rsa,dsa,ecdsa,ed25519 $(cat ${GITHUB_WORKSPACE}/ip.txt) >> /home/runner/.ssh/known_hosts
 
       - name: Run ansible script
         shell: bash
@@ -72,7 +72,7 @@ jobs:
             -v \
             --private-key /home/runner/.ssh/id_ed25519 \
             -u admin \
-            -i ip-file/ip.txt \
+            -i ${GITHUB_WORKSPACE}/ip.txt \
             playbook.yaml \
             --extra-vars "domain_name=${{vars.DOMAIN_NAME}} email_address=${{secrets.CERTBOT_EMAIL}}"
 
