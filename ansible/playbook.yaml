@@ -1,0 +1,38 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Mount EBS Volume
+      mount:
+        path: /mnt/ebs_volume
+        src: /dev/sdf
+        fstype: ext4
+        state: mounted
+    
+    - name: Update all packages
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: latest
+
+    - name: Install Certbot
+      apt:
+        name: certbot
+        state: latest
+
+    - name: Obtain a certificate from Let's Encrypt
+      shell: |
+        certbot certonly --standalone -d {{ domain_name }} -n --agree-tos -m {{ email_address }}
+      args:
+        creates: /etc/letsencrypt/live/{{ domain_name }}
+      register: certbot_output
+      changed_when: "'Congratulations' in certbot_output.stdout"
+        
+
+
+
+# /etc/letsencrypt/live/forms.sprout9.nl/fullchain.pem
+# /etc/letsencrypt/live/forms.sprout9.nl/privkey.pem
