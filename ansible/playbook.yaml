@@ -13,7 +13,7 @@
     - name: Mount EBS Volume
       mount:
         path: /data
-        src: {{ ebs_volume_device_name }}
+        src: "{{ ebs_volume_device_name }}"
         fstype: ext4
         state: mounted
         boot: true
