@@ -6,11 +6,11 @@
     - name: Get Linux device name for EBS volume
       ansible.builtin.shell:
         cmd: lsblk -o PATH,SERIAL | grep {{ ebs_volume_id | replace('-', '') }} | cut -d ' ' -f 1
-      register: lsblk
+      register: lsblk_name
 
     - name: Store EBS volume device name
       ansible.builtin.set_fact:
-        ebs_volume_device_name: "{{ lsblk.stdout }}"
+        ebs_volume_device_name: "{{ lsblk_name.stdout }}"
 
     - name: Create a directory if it does not exist
       ansible.builtin.file:
@@ -29,7 +29,22 @@
         src: "{{ ebs_volume_device_name }}"
         fstype: ext4
         state: mounted
-        boot: true
+        boot: false
+
+    - name: Get Linux device UUID for EBS volume
+      ansible.builtin.shell:
+        cmd: lsblk -o SERIAL,UUID | grep {{ ebs_volume_id | replace('-', '') }} | cut -d ' ' -f 2
+      register: lsblk_uuid
+
+    - name: Store EBS volume device UUID
+      ansible.builtin.set_fact:
+        ebs_volume_device_uuid: "{{ lsblk_uuid.stdout }}"
+
+    - name: Add UUID to /etc/fstab
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        regexp: "^UUID={{ ebs_volume_device_uuid }}"
+        line: "UUID={{ebs_volume_device_uuid}} /data  ext4  defaults,nofail  0  2"
     
     # - name: Update all packages
     #   ansible.builtin.apt:
