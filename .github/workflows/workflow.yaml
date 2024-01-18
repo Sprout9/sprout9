@@ -66,13 +66,6 @@ jobs:
 
       - name: Run ansible script
         shell: bash
-        run: |
-          ls ${GITHUB_WORKSPACE}
-          ls ${GITHUB_WORKSPACE}/ebs_volume_id.txt
-          cat ${GITHUB_WORKSPACE}/ebs_volume_id.txt
-
-      - name: Run ansible script
-        shell: bash
         working-directory: ./ansible
         run: |
           service ssh status

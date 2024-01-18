@@ -1,4 +1,6 @@
 - hosts: all
+  vars:
+    mount_path: /data
   become: yes
   tasks:
     - name: Get Linux device name for EBS volume
@@ -12,13 +14,18 @@
 
     - name: Create a directory if it does not exist
       ansible.builtin.file:
-        path: /data
+        path: "{{ mount_path }}"
         state: directory
         mode: '0755'
 
+    - name: Create File System
+      community.general.filesystem:
+        fstype: ext4
+        dev: "{{ ebs_volume_device_name }}"
+
     - name: Mount EBS Volume
       ansible.posix.mount:
-        path: /data
+        path: "{{ mount_path }}"
         src: "{{ ebs_volume_device_name }}"
         fstype: ext4
         state: mounted
