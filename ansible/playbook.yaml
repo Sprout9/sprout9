@@ -51,14 +51,13 @@
         regexp: "^UUID={{ ebs_volume_device_uuid }}"
         line: "UUID={{ebs_volume_device_uuid}} /data  ext4  defaults  0  2"
 
-    # https://gist.github.com/roib20/27fde10af195cee1c1f8ac5f68be7e9b
     - name: Add Docker Module Repository
       ansible.builtin.deb822_repository:
         name: docker
         types: [deb]
         uris: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
         signed_by: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
-        suites: ["{{ ansible_distribution_release|lower }}"]
+        suites: ["{{ ansible_distribution_release | lower }}"]
         components: [stable]
         state: present
         enabled: yes
@@ -76,44 +75,33 @@
           - gnupg
         state: latest
 
-    # - name: Add signing key
-    #   ansible.builtin.apt_key:
-    #     url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
-    #     state: present
-
-    # - name: Add repository into sources list
-    #   ansible.builtin.apt_repository:
-    #     repo: "deb [arch={{ ansible_architecture }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
-    #     state: present
-    #     filename: docker
-
     - name: Install Docker
       ansible.builtin.apt:
         name:
-          - docker
-          - docker.io
-          - docker-registry
+          - docker-ce 
+          - docker-ce-cli 
+          - containerd.io
         state: latest
         update_cache: true
 
-    # - name: Start Docker Service
-    #   ansible.builtin.service:
-    #     name: docker
-    #     state: started
-    #     enabled: yes
+    - name: Start Docker Service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
 
-    # - name: Install Cron
-    #   ansible.builtin.apt:
-    #     name: cron
-    #     state: latest
+    - name: Install Cron
+      ansible.builtin.apt:
+        name: cron
+        state: latest
 
-    # - name: Start Cron Service
-    #   ansible.builtin.service:
-    #     name: cron
-    #     state: started
-    #     enabled: yes
+    - name: Start Cron Service
+      ansible.builtin.service:
+        name: cron
+        state: started
+        enabled: yes
 
-    # - name: Install Certbot
-    #   ansible.builtin.apt:
-    #     name: certbot
-    #     state: latest
+    - name: Install Certbot
+      ansible.builtin.apt:
+        name: certbot
+        state: latest
