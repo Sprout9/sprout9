@@ -10,6 +10,12 @@
       ansible.builtin.set_fact:
         ebs_volume_device_name: "{{ lsblk.stdout }}"
 
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /data
+        state: directory
+        mode: '0755'
+
     - name: Mount EBS Volume
       mount:
         path: /data
