@@ -56,6 +56,17 @@
         update_cache: yes
         upgrade: yes
 
+    - name: Add Docker Module Repository
+      ansible.builtin.deb822_repository:
+        name: docker
+        types: [deb]
+        uris: "https://download.docker.com/linux/debian"
+        signed_by: "https://download.docker.com/linux/debian/gpg"
+        suites: [stable]
+        components: [main]
+        state: present
+        enabled: yes
+
     - name: Install Docker
       ansible.builtin.apt:
         name:
@@ -64,16 +75,16 @@
           - gnupg
         state: latest
 
-    - name: Add signing key
-      ansible.builtin.apt_key:
-        url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
-        state: present
+    # - name: Add signing key
+    #   ansible.builtin.apt_key:
+    #     url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    #     state: present
 
-    - name: Add repository into sources list
-      ansible.builtin.apt_repository:
-        repo: "deb [arch={{ ansible_architecture }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
-        state: present
-        filename: docker
+    # - name: Add repository into sources list
+    #   ansible.builtin.apt_repository:
+    #     repo: "deb [arch={{ ansible_architecture }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+    #     state: present
+    #     filename: docker
 
     - name: Install Docker
       ansible.builtin.apt:
@@ -84,38 +95,24 @@
         state: latest
         update_cache: true
 
-    - name: Start Docker Service
-      ansible.builtin.service:
-        name: docker
-        state: started
-        enabled: yes
+    # - name: Start Docker Service
+    #   ansible.builtin.service:
+    #     name: docker
+    #     state: started
+    #     enabled: yes
 
-    - name: Install Cron
-      ansible.builtin.apt:
-        name: cron
-        state: latest
+    # - name: Install Cron
+    #   ansible.builtin.apt:
+    #     name: cron
+    #     state: latest
 
-    - name: Start Cron Service
-      ansible.builtin.service:
-        name: cron
-        state: started
-        enabled: yes
+    # - name: Start Cron Service
+    #   ansible.builtin.service:
+    #     name: cron
+    #     state: started
+    #     enabled: yes
 
-    - name: Install Certbot
-      ansible.builtin.apt:
-        name: certbot
-        state: latest
-
-    # - name: Obtain a certificate from Let's Encrypt
-    #   ansible.builtin.shell: |
-    #     certbot certonly --standalone -d {{ domain_name }} -n --agree-tos -m {{ email_address }}
-    #   args:
-    #     creates: /etc/letsencrypt/live/{{ domain_name }}
-    #   register: certbot_output
-    #   changed_when: "'Congratulations' in certbot_output.stdout"
-        
-
-
-
-# /etc/letsencrypt/live/forms.sprout9.nl/fullchain.pem
-# /etc/letsencrypt/live/forms.sprout9.nl/privkey.pem
+    # - name: Install Certbot
+    #   ansible.builtin.apt:
+    #     name: certbot
+    #     state: latest

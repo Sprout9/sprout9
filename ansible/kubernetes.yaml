@@ -1,0 +1,10 @@
+        - name: Add Kubernetes APT repository
+          ansible.builtin.deb822_repository:
+            name: kubernetes
+            types: [deb]
+            uris: "https://apt.kubernetes.io"
+            signed_by: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+            suites: [kubernetes-xenial]
+            components: [main]
+            state: present
+            enabled: yes
