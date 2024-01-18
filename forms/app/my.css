@@ -1,0 +1,487 @@
+:root,
+.redefine {
+    --color-opacity: 1;
+    --bg-color-opacity: 1;
+
+    /* colors */
+    --black: rgb(0, 0, 0, var(--color-opacity));
+    --white: rgb(255, 255, 255, var(--color-opacity));
+    --gray-50: rgb(249, 250, 251, var(--color-opacity));
+    --gray-100: rgb(243, 244, 246, var(--color-opacity));
+    --gray-200: rgb(229, 231, 235, var(--color-opacity));
+    --gray-300: rgb(209, 213, 219, var(--color-opacity));
+    --gray-400: rgb(156, 163, 175, var(--color-opacity));
+    --gray-500: rgb(107, 114, 128, var(--color-opacity));
+    --gray-600: rgb(75, 85, 99, var(--color-opacity));
+    --gray-700: rgb(55, 65, 81, var(--color-opacity));
+    --gray-800: rgb(31, 41, 55, var(--color-opacity));
+    --gray-900: rgb(17, 24, 39, var(--color-opacity));
+    --red-50: rgb(254, 242, 242, var(--color-opacity));
+    --red-100: rgb(254, 226, 226, var(--color-opacity));
+    --red-200: rgb(254, 202, 202, var(--color-opacity));
+    --red-300: rgb(252, 165, 165, var(--color-opacity));
+    --red-400: rgb(248, 113, 113, var(--color-opacity));
+    --red-500: rgb(239, 68, 68, var(--color-opacity));
+    --red-600: rgb(220, 38, 38, var(--color-opacity));
+    --red-700: rgb(185, 28, 28, var(--color-opacity));
+    --red-800: rgb(153, 27, 27, var(--color-opacity));
+    --red-900: rgb(127, 29, 29, var(--color-opacity));
+    --yellow-50: rgb(255, 251, 235, var(--color-opacity));
+    --yellow-100: rgb(254, 243, 199, var(--color-opacity));
+    --yellow-200: rgb(253, 230, 138, var(--color-opacity));
+    --yellow-300: rgb(252, 211, 77, var(--color-opacity));
+    --yellow-400: rgb(251, 191, 36, var(--color-opacity));
+    --yellow-500: rgb(245, 158, 11, var(--color-opacity));
+    --yellow-600: rgb(217, 119, 6, var(--color-opacity));
+    --yellow-700: rgb(180, 83, 9, var(--color-opacity));
+    --yellow-800: rgb(146, 64, 14, var(--color-opacity));
+    --yellow-900: rgb(120, 53, 15, var(--color-opacity));
+    --green-50: rgb(236, 253, 245, var(--color-opacity));
+    --green-100: rgb(209, 250, 229, var(--color-opacity));
+    --green-200: rgb(167, 243, 208, var(--color-opacity));
+    --green-300: rgb(110, 231, 183, var(--color-opacity));
+    --green-400: rgb(52, 211, 153, var(--color-opacity));
+    --green-500: rgb(16, 185, 129, var(--color-opacity));
+    --green-600: rgb(5, 150, 105, var(--color-opacity));
+    --green-700: rgb(4, 120, 87, var(--color-opacity));
+    --green-800: rgb(6, 95, 70, var(--color-opacity));
+    --green-900: rgb(6, 78, 59, var(--color-opacity));
+    --blue-50: rgb(239, 246, 255, var(--color-opacity));
+    --blue-100: rgb(219, 234, 254, var(--color-opacity));
+    --blue-200: rgb(191, 219, 254, var(--color-opacity));
+    --blue-300: rgb(147, 197, 253, var(--color-opacity));
+    --blue-400: rgb(96, 165, 250, var(--color-opacity));
+    --blue-500: rgb(59, 130, 246, var(--color-opacity));
+    --blue-600: rgb(37, 99, 235, var(--color-opacity));
+    --blue-700: rgb(29, 78, 216, var(--color-opacity));
+    --blue-800: rgb(30, 64, 175, var(--color-opacity));
+    --blue-900: rgb(30, 58, 138, var(--color-opacity));
+    --indigo-50: rgb(238, 242, 255, var(--color-opacity));
+    --indigo-100: rgb(224, 231, 255, var(--color-opacity));
+    --indigo-200: rgb(199, 210, 254, var(--color-opacity));
+    --indigo-300: rgb(165, 180, 252, var(--color-opacity));
+    --indigo-400: rgb(129, 140, 248, var(--color-opacity));
+    --indigo-500: rgb(99, 102, 241, var(--color-opacity));
+    --indigo-600: rgb(79, 70, 229, var(--color-opacity));
+    --indigo-700: rgb(67, 56, 202, var(--color-opacity));
+    --indigo-800: rgb(55, 48, 163, var(--color-opacity));
+    --indigo-900: rgb(49, 46, 129, var(--color-opacity));
+    --purple-50: rgb(245, 243, 255, var(--color-opacity));
+    --purple-100: rgb(237, 233, 254, var(--color-opacity));
+    --purple-200: rgb(221, 214, 254, var(--color-opacity));
+    --purple-300: rgb(196, 181, 253, var(--color-opacity));
+    --purple-400: rgb(167, 139, 250, var(--color-opacity));
+    --purple-500: rgb(139, 92, 246, var(--color-opacity));
+    --purple-600: rgb(124, 58, 237, var(--color-opacity));
+    --purple-700: rgb(109, 40, 217, var(--color-opacity));
+    --purple-800: rgb(91, 33, 182, var(--color-opacity));
+    --purple-900: rgb(76, 29, 149, var(--color-opacity));
+    --pink-50: rgb(253, 242, 248, var(--color-opacity));
+    --pink-100: rgb(252, 231, 243, var(--color-opacity));
+    --pink-200: rgb(251, 207, 232, var(--color-opacity));
+    --pink-300: rgb(249, 168, 212, var(--color-opacity));
+    --pink-400: rgb(244, 114, 182, var(--color-opacity));
+    --pink-500: rgb(236, 72, 153, var(--color-opacity));
+    --pink-600: rgb(219, 39, 119, var(--color-opacity));
+    --pink-700: rgb(190, 24, 93, var(--color-opacity));
+    --pink-800: rgb(157, 23, 77, var(--color-opacity));
+    --pink-900: rgb(131, 24, 67, var(--color-opacity));
+
+    /* background colors */
+    --bg-black: rgb(0, 0, 0, var(--bg-color-opacity));
+    --bg-white: rgb(255, 255, 255, var(--bg-color-opacity));
+    --bg-gray-50: rgb(249, 250, 251, var(--bg-color-opacity));
+    --bg-gray-100: rgb(243, 244, 246, var(--bg-color-opacity));
+    --bg-gray-200: rgb(229, 231, 235, var(--bg-color-opacity));
+    --bg-gray-300: rgb(209, 213, 219, var(--bg-color-opacity));
+    --bg-gray-400: rgb(156, 163, 175, var(--bg-color-opacity));
+    --bg-gray-500: rgb(107, 114, 128, var(--bg-color-opacity));
+    --bg-gray-600: rgb(75, 85, 99, var(--bg-color-opacity));
+    --bg-gray-700: rgb(55, 65, 81, var(--bg-color-opacity));
+    --bg-gray-800: rgb(31, 41, 55, var(--bg-color-opacity));
+    --bg-gray-900: rgb(17, 24, 39, var(--bg-color-opacity));
+    --bg-red-50: rgb(254, 242, 242, var(--bg-color-opacity));
+    --bg-red-100: rgb(254, 226, 226, var(--bg-color-opacity));
+    --bg-red-200: rgb(254, 202, 202, var(--bg-color-opacity));
+    --bg-red-300: rgb(252, 165, 165, var(--bg-color-opacity));
+    --bg-red-400: rgb(248, 113, 113, var(--bg-color-opacity));
+    --bg-red-500: rgb(239, 68, 68, var(--bg-color-opacity));
+    --bg-red-600: rgb(220, 38, 38, var(--bg-color-opacity));
+    --bg-red-700: rgb(185, 28, 28, var(--bg-color-opacity));
+    --bg-red-800: rgb(153, 27, 27, var(--bg-color-opacity));
+    --bg-red-900: rgb(127, 29, 29, var(--bg-color-opacity));
+    --bg-yellow-50: rgb(255, 251, 235, var(--bg-color-opacity));
+    --bg-yellow-100: rgb(254, 243, 199, var(--bg-color-opacity));
+    --bg-yellow-200: rgb(253, 230, 138, var(--bg-color-opacity));
+    --bg-yellow-300: rgb(252, 211, 77, var(--bg-color-opacity));
+    --bg-yellow-400: rgb(251, 191, 36, var(--bg-color-opacity));
+    --bg-yellow-500: rgb(245, 158, 11, var(--bg-color-opacity));
+    --bg-yellow-600: rgb(217, 119, 6, var(--bg-color-opacity));
+    --bg-yellow-700: rgb(180, 83, 9, var(--bg-color-opacity));
+    --bg-yellow-800: rgb(146, 64, 14, var(--bg-color-opacity));
+    --bg-yellow-900: rgb(120, 53, 15, var(--bg-color-opacity));
+    --bg-green-50: rgb(236, 253, 245, var(--bg-color-opacity));
+    --bg-green-100: rgb(209, 250, 229, var(--bg-color-opacity));
+    --bg-green-200: rgb(167, 243, 208, var(--bg-color-opacity));
+    --bg-green-300: rgb(110, 231, 183, var(--bg-color-opacity));
+    --bg-green-400: rgb(52, 211, 153, var(--bg-color-opacity));
+    --bg-green-500: rgb(16, 185, 129, var(--bg-color-opacity));
+    --bg-green-600: rgb(5, 150, 105, var(--bg-color-opacity));
+    --bg-green-700: rgb(4, 120, 87, var(--bg-color-opacity));
+    --bg-green-800: rgb(6, 95, 70, var(--bg-color-opacity));
+    --bg-green-900: rgb(6, 78, 59, var(--bg-color-opacity));
+    --bg-blue-50: rgb(239, 246, 255, var(--bg-color-opacity));
+    --bg-blue-100: rgb(219, 234, 254, var(--bg-color-opacity));
+    --bg-blue-200: rgb(191, 219, 254, var(--bg-color-opacity));
+    --bg-blue-300: rgb(147, 197, 253, var(--bg-color-opacity));
+    --bg-blue-400: rgb(96, 165, 250, var(--bg-color-opacity));
+    --bg-blue-500: rgb(59, 130, 246, var(--bg-color-opacity));
+    --bg-blue-600: rgb(37, 99, 235, var(--bg-color-opacity));
+    --bg-blue-700: rgb(29, 78, 216, var(--bg-color-opacity));
+    --bg-blue-800: rgb(30, 64, 175, var(--bg-color-opacity));
+    --bg-blue-900: rgb(30, 58, 138, var(--bg-color-opacity));
+    --bg-indigo-50: rgb(238, 242, 255, var(--bg-color-opacity));
+    --bg-indigo-100: rgb(224, 231, 255, var(--bg-color-opacity));
+    --bg-indigo-200: rgb(199, 210, 254, var(--bg-color-opacity));
+    --bg-indigo-300: rgb(165, 180, 252, var(--bg-color-opacity));
+    --bg-indigo-400: rgb(129, 140, 248, var(--bg-color-opacity));
+    --bg-indigo-500: rgb(99, 102, 241, var(--bg-color-opacity));
+    --bg-indigo-600: rgb(79, 70, 229, var(--bg-color-opacity));
+    --bg-indigo-700: rgb(67, 56, 202, var(--bg-color-opacity));
+    --bg-indigo-800: rgb(55, 48, 163, var(--bg-color-opacity));
+    --bg-indigo-900: rgb(49, 46, 129, var(--bg-color-opacity));
+    --bg-purple-50: rgb(245, 243, 255, var(--bg-color-opacity));
+    --bg-purple-100: rgb(237, 233, 254, var(--bg-color-opacity));
+    --bg-purple-200: rgb(221, 214, 254, var(--bg-color-opacity));
+    --bg-purple-300: rgb(196, 181, 253, var(--bg-color-opacity));
+    --bg-purple-400: rgb(167, 139, 250, var(--bg-color-opacity));
+    --bg-purple-500: rgb(139, 92, 246, var(--bg-color-opacity));
+    --bg-purple-600: rgb(124, 58, 237, var(--bg-color-opacity));
+    --bg-purple-700: rgb(109, 40, 217, var(--bg-color-opacity));
+    --bg-purple-800: rgb(91, 33, 182, var(--bg-color-opacity));
+    --bg-purple-900: rgb(76, 29, 149, var(--bg-color-opacity));
+    --bg-pink-50: rgb(253, 242, 248, var(--bg-color-opacity));
+    --bg-pink-100: rgb(252, 231, 243, var(--bg-color-opacity));
+    --bg-pink-200: rgb(251, 207, 232, var(--bg-color-opacity));
+    --bg-pink-300: rgb(249, 168, 212, var(--bg-color-opacity));
+    --bg-pink-400: rgb(244, 114, 182, var(--bg-color-opacity));
+    --bg-pink-500: rgb(236, 72, 153, var(--bg-color-opacity));
+    --bg-pink-600: rgb(219, 39, 119, var(--bg-color-opacity));
+    --bg-pink-700: rgb(190, 24, 93, var(--bg-color-opacity));
+    --bg-pink-800: rgb(157, 23, 77, var(--bg-color-opacity));
+    --bg-pink-900: rgb(131, 24, 67, var(--bg-color-opacity));
+
+    /* font size */
+    --font-xs: 0.75rem;
+    --font-sm: 0.875rem;
+    --font-md: 1rem;
+    --font-lg: 1.125rem;
+    --font-xl: 1.25rem;
+    --font-2xl: 1.5rem;
+    --font-3xl: 1.875rem;
+    --font-4xl: 2.25rem;
+    --font-5xl: 3rem;
+    --font-6xl: 3.75rem;
+    --font-7xl: 4.5rem;
+    --font-8xl: 6rem;
+    --font-9xl: 8rem;
+
+    /* line height */
+    --line-xs: 1rem;
+    --line-sm: 1.25rem;
+    --line-md: 1.5rem;
+    --line-lg: 1.75rem;
+    --line-xl: 1.75rem;
+    --line-2xl: 2rem;
+    --line-3xl: 2.25rem;
+    --line-4xl: 2.5rem;
+    --line-5xl: 1;
+    --line-6xl: 1;
+    --line-7xl: 1;
+    --line-8xl: 1;
+    --line-9xl: 1;
+
+
+    /* Text on light background */
+    --primary-text-light-bg: var(--gray-900);
+    --secondary-text-light-bg: var(--gray-600);
+    --interactive-text-light-bg: var(--blue-800);
+    --inline-error-text-light-bg: var(--red-800);
+    --disabled-text-light-bg: var(--gray-500);
+    --border-light-bg: var(--gray-200);
+
+    /* Text on dark background */
+    --primary-text-dark-bg: var(--white);
+    --secondary-text-dark-bg: var(--gray-400);
+    --interactive-text-dark-bg: var(--blue-50);
+    --inline-error-text-dark-bg: var(--red-100);
+    --disabled-text-dark-bg: var(--gray-500);
+    --border-dark-bg: var(--gray-700);
+
+    --elevate-1: 0 0.05rem 0.15rem var(--shadow-color);
+    --elevate-2: 0 0.125rem 0.275rem var(--shadow-color),
+        0 0.06rem 0.125rem var(--shadow-color);
+    --elevate-3: 0 0.25rem 0.75rem var(--shadow-color),
+        0 0.125rem 0.25rem var(--shadow-color);
+}
+
+
+/*
+Document
+========
+*/
+
+/**
+ * 1. Prevent padding and border from affecting element width.
+ *
+ *    We used to set this in the html element and inherit from
+ *    the parent element for everything else. This caused issues
+ *    in shadow-dom-enhanced elements like <details> where the content
+ *    is wrapped by a div with box-sizing set to `content-box`.
+ *
+ *    https://github.com/mozdevs/cssremedy/issues/4
+ *
+ *
+ * 2. Allow adding a border to an element by just adding a border-width.
+ *
+ *    By default, the way the browser specifies that an element should have no
+ *    border is by setting it's border-style to `none` in the user-agent
+ *    stylesheet.
+ *
+ *    In order to easily add borders to elements by just setting the `border-width`
+ *    property, we change the default border-style for all elements to `solid`, and
+ *    use border-width to hide them instead. This way our `border` utilities only
+ *    need to set the `border-width` property instead of the entire `border`
+ *    shorthand, making our border utilities much more straightforward to compose.
+ *
+ *    https://github.com/tailwindcss/tailwindcss/pull/116
+ */
+
+*,
+::before,
+::after {
+    box-sizing: border-box;
+    /* 1 */
+    border-width: 0;
+    /* 2 */
+    border-style: solid;
+    /* 2 */
+    border-color: currentColor;
+    /* 2 */
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+html {
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+}
+
+/*
+Sections
+========
+*/
+
+/**
+1. Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
+2. Correct the odd 'em' font sizing in all browsers.
+*/
+
+code,
+kbd,
+samp,
+pre {
+    font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Consolas,
+        'Liberation Mono',
+        Menlo,
+        monospace;
+    /* 1 */
+    font-size: 1em;
+    /* 2 */
+}
+
+/*
+Forms
+=====
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+    /* 1 */
+    font-size: 100%;
+    /* 1 */
+    line-height: 1.15;
+    /* 1 */
+    text-transform: none;
+}
+
+/**
+Remove the inner border and padding in Firefox.
+*/
+
+::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+}
+
+/**
+Restore the focus styles unset by the previous rule.
+*/
+
+:-moz-focusring {
+    outline: auto;
+}
+
+/**
+Remove the additional ':invalid' styles in Firefox.
+See: https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737
+*/
+
+:-moz-ui-invalid {
+    box-shadow: none;
+}
+
+/**
+Correct the cursor style of increment and decrement buttons in Safari.
+*/
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+    height: auto;
+}
+
+/**
+Remove the inner padding in Chrome and Safari on macOS.
+*/
+
+::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+/**
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Change font properties to 'inherit' in Safari.
+*/
+
+::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    /* 1 */
+    font: inherit;
+    /* 2 */
+}
+
+/*
+Interactive
+===========
+*/
+
+/**
+ * Manually forked from SUIT CSS Base: https://github.com/suitcss/base
+ * A thin layer on top of normalize.css that provides a starting point more
+ * suitable for web applications.
+ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+button {
+    background-color: transparent;
+    background-image: none;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+/*
+ * Ensure horizontal rules are visible by default
+ */
+
+hr {
+    border-top-width: 1px;
+}
+
+/**
+ * Undo the `border-style: none` reset that Normalize applies to images so that
+ * our `border-{width}` utilities have the expected effect.
+ *
+ * The Normalize reset is unnecessary for us since we default the border-width
+ * to 0 on all elements.
+ *
+ * https://github.com/tailwindcss/tailwindcss/issues/362
+ */
+
+img {
+    border-style: solid;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+    opacity: 1;
+    color: #9ca3af;
+}
+
+input::placeholder,
+textarea::placeholder {
+    opacity: 1;
+    color: #9ca3af;
+}
+
+button,
+[role="button"] {
+    cursor: pointer;
+}
+
+/**
+ * Constrain images and videos to the parent width and preserve
+ * their intrinsic aspect ratio.
+ *
+ * https://github.com/mozdevs/cssremedy/issues/14
+ */
+
+img,
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+    display: block;
+}
+
+table {
+    border-collapse: collapse;
+}

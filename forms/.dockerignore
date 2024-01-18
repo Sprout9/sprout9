@@ -1,0 +1,12 @@
+node_modules
+.dockerignore
+.docker
+.git
+.eslintrc.json
+.gitignore
+.next
+README.md
+Dockerfile
+docker-compose.yaml
+scripts
+!scripts/update.js

@@ -1,0 +1,135 @@
+@import url("./my.css");
+@import url("./styles.css");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lusitana:wght@400;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Source+Sans+3:wght@200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --primary: var(--blue-100);
+    --primary-variant: var(--blue-600);
+    --background: var(--white);
+    --background-1: var(--gray-50);
+    --background-2: var(--gray-100);
+    --background-3: var(--gray-200);
+    --error: var(--red-500);
+    --text-on-primary: var(--primary-text-dark-bg);
+    --text-on-primary-variant: var(--primary-text-dark-bg);
+    --text-on-background: var(--primary-text-light-bg);
+    --secondary-text-on-background: var(--secondary-text-light-bg);
+    --interactive-text-on-background: var(--interactive-text-light-bg);
+    --text-on-error: var(--primary-text-dark-bg);
+    --text-disabled: var(--disabled-text-light-bg);
+    --shadow-color: var(--gray-400);
+
+    --serif: "Lusitana", serif;
+    --sans-serif: "Inter", sans-serif;
+    --background-opaque: rgb(255, 255, 255, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary: var(--blue-900);
+        --primary-variant: var(--blue-600);
+        --background: var(--gray-900);
+        --background-1: var(--gray-800);
+        --background-2: var(--gray-700);
+        --background-3: var(--gray-600);
+        --error: var(--red-300);
+        --text-on-primary: var(--primary-text-dark-bg);
+        --text-on-primary-variant: var(--primary-text-dark-bg);
+        --text-on-background: var(--primary-text-dark-bg);
+        --secondary-text-on-background: var(--secondary-text-dark-bg);
+        --interactive-text-on-background: var(--interactive-text-dark-bg);
+        --text-on-error: var(--primary-text-light-bg);
+        --text-disabled: var(--disabled-text-dark-bg);
+        --shadow-color: var(--black);
+    }
+
+    html {
+        color-scheme: dark;
+    }
+}
+
+html,
+body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+body {
+    color: var(--text-on-background);
+    background: var(--background);
+}
+
+.primary {
+    color: var(--text-on-primary);
+    background: var(--primary);
+}
+
+.variant {
+    color: var(--text-on-primary-variant);
+    background: var(--primary-variant);
+}
+
+.secondary-text {
+    color: var(--secondary-text-on-background);
+}
+
+.elevate-1 {
+    box-shadow: var(--elevate-2);
+}
+
+.elevate-2 {
+    box-shadow: var(--elevate-2);
+}
+
+.elevate-3 {
+    box-shadow: var(--elevate-3);
+}
+
+.btn-1,
+.btn-2,
+.btn-3 {
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    cursor: pointer;
+}
+
+.btn-1:hover {
+    transform: scale(1.01, 1.01);
+}
+
+.btn-2:hover {
+    transform: scale(1.02, 1.02);
+}
+
+.btn-3:hover {
+    transform: scale(1.03, 1.03);
+}
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.scrollbar::-webkit-scrollbar {
+
+    height: 0.25rem;
+    width: 0.25rem;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 0.25rem;
+}
