@@ -66,6 +66,13 @@ jobs:
 
       - name: Run ansible script
         shell: bash
+        run: |
+          ls ${GITHUB_WORKSPACE}
+          ls ${GITHUB_WORKSPACE}/ebs_volume_id.txt
+          cat ${GITHUB_WORKSPACE}/ebs_volume_id.txt
+
+      - name: Run ansible script
+        shell: bash
         working-directory: ./ansible
         run: |
           service ssh status
@@ -78,7 +85,7 @@ jobs:
             --extra-vars "\
               domain_name=${{vars.DOMAIN_NAME}} \
               email_address=${{secrets.CERTBOT_EMAIL}} \
-              ebs_volume_id=$(cat "${GITHUB_WORKSPACE}/ebs_volume_id.txt")"
+              ebs_volume_id=$(cat ${GITHUB_WORKSPACE}/ebs_volume_id.txt)"
 
 
   push_to_registry:
