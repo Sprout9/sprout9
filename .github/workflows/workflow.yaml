@@ -5,8 +5,6 @@ on:
   push:
     branches:
       - 'main'
-    tags:
-      - 'v*'
 
 jobs:
   apply_terraform_changes:
@@ -29,12 +27,15 @@ jobs:
           terraform init
           terraform apply -auto-approve
           terraform output -json | jq -r .aws_eip_public_ip.value > ip.txt
+          terraform output -json | jq -r .aws_ebs_volume_id.value > ebs_volume_id.txt
           
       - name: Upload IP artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ip-file
-          path: terraform/ip.txt
+          path: |
+            terraform/ip.txt
+            terraform/ebs_volume_id.txt
 
 
   apply_ansible_changes:
@@ -49,9 +50,9 @@ jobs:
         run: pip install ansible
 
       - name: Download IP artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
-          name: ip-file
+          merge-multiple: true
 
       - name: Setup SSH 
         shell: bash
@@ -74,7 +75,10 @@ jobs:
             -u admin \
             -i ${GITHUB_WORKSPACE}/ip.txt \
             playbook.yaml \
-            --extra-vars "domain_name=${{vars.DOMAIN_NAME}} email_address=${{secrets.CERTBOT_EMAIL}}"
+            --extra-vars "\
+              domain_name=${{vars.DOMAIN_NAME}} \
+              email_address=${{secrets.CERTBOT_EMAIL}} \
+              ebs_volume_id=$(cat ${GITHUB_WORKSPACE/ebs_volume_id.txt})"
 
 
   push_to_registry:

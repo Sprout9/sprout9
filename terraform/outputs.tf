@@ -13,3 +13,8 @@ output "aws_eip_public_ip" {
   description = "Public ip of elastic IP"
   value       = module.forms.aws_eip_public_ip
 }
+
+output "aws_ebs_volume_id" {
+  description = "EBS Volume Device Id"
+  value       = module.forms.aws_ebs_volume_id
+}
