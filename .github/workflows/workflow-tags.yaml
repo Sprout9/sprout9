@@ -1,4 +1,4 @@
-name: Sprout9 Forms Tags App Workflow
+name: Sprout9 Forms App Tags Workflow
 
 on:
   workflow_dispatch:

@@ -123,11 +123,14 @@ jobs:
 
 
   deploy_to_instance:
-    name: Deploy latest forms app version to instance Docker
+    name: Deploy latest nginx version to instance Docker
     runs-on: ubuntu-latest
     needs:
       - push_nginx_to_registry
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
       - name: Download IP artifact
         uses: actions/download-artifact@v4
         with:
@@ -149,7 +152,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
       - name: Deploy
-        # if: ${{ needs.push_nginx_to_registry.outputs.output1 == 'success'}}
         run: |
           docker context create remote --docker "host=ssh://${{ secrets.REMOTE_USER }}@$(cat ${GITHUB_WORKSPACE}/ip.txt)"
           docker-compose --context remote pull
