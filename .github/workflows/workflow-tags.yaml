@@ -43,8 +43,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           platforms: linux/arm64,linux/amd64
           build-args: |
-            MONGO_INITDB_ROOT_USERNAME="${{ secrets.MONGO_INITDB_ROOT_USERNAME }}"
-            MONGO_INITDB_ROOT_PASSWORD="${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}"
             MONGODB_URI="mongodb://${{ secrets.MONGO_INITDB_ROOT_USERNAME }}:${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}@mongodb:27017/?authSource=admin"
             NODEMAILER_USER="${{ vars.NODEMAILER_USER }}"
             NODEMAILER_PASS="${{ secrets.NODEMAILER_PASS }}"
