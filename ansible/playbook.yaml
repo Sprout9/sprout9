@@ -106,11 +106,11 @@
         name: certbot
         state: latest
 
-    # - name: Obtain a certificate from Let's Encrypt
-    #   ansible.builtin.shell: |
-    #     certbot certonly --standalone -d {{ domain_name }} -n --agree-tos -m {{ email_address }}
-    #   args:
-    #     creates: /etc/letsencrypt/live/{{ domain_name }}
-    #   register: certbot_output
-    #   changed_when: "'Congratulations' in certbot_output.stdout"
+    - name: Obtain a certificate from Let's Encrypt
+      ansible.builtin.shell: |
+        certbot certonly --standalone -d {{ domain_name }} -n --agree-tos -m {{ email_address }}
+      args:
+        creates: /etc/letsencrypt/live/{{ domain_name }}
+      register: certbot_output
+      changed_when: "'Congratulations' in certbot_output.stdout"
         
