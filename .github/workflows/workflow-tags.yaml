@@ -41,8 +41,7 @@ jobs:
           file: ./forms/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          platforms:
-            - linux/arm64v8
+          platforms: linux/arm64v8
           build-args: |
             MONGODB_URI=mongodb://${{ secrets.MONGO_INITDB_ROOT_USERNAME }}:${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}@mongodb:27017/?authSource=admin
             NODEMAILER_USER=${{ vars.NODEMAILER_USER }}

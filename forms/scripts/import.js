@@ -9,16 +9,36 @@ const client = new MongoClient(uri)
 async function run() {
     try {
 
-        const db = client.db("test")
+        const db = client.db("forms")
+
+        try {
+            const usersData = fs.readFileSync("users.json");
+            const users = JSON.parse(usersData);
+
+            await db.collection("users").insertMany(users)
+        } catch (error) {
+            console.log("users write error")
+        }
+
+
+        try {
+            const formsData = fs.readFileSync("forms.json");
+            const forms = JSON.parse(formsData);
+
+            await db.collection("forms").insertMany(forms)
+        } catch (error) {
+            console.log("forms write error")
+        }
+
 
         try {
             const responsesData = fs.readFileSync("responses.json");
+            const responses = JSON.parse(responsesData);
+
+            await db.collection("responses").insertMany(responses)
         } catch (error) {
             console.log("responses write error")
         }
-        const responses = JSON.parse(responsesData);
-
-        await db.collection("forms").insertMany()
 
 
     } finally {

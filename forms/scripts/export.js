@@ -9,7 +9,7 @@ const client = new MongoClient(uri)
 async function run() {
     try {
 
-        const db = client.db("test")
+        const db = client.db("forms")
 
         const users = await db.collection("users").find().toArray()
         const usersString = JSON.stringify(users);
