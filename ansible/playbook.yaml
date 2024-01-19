@@ -84,6 +84,17 @@
         state: latest
         update_cache: true
 
+    - name: Ensure group "docker" exists
+      ansible.builtin.group:
+        name: docker
+        state: present
+
+    - name: Add the user to group "docker"
+      ansible.builtin.user:
+        name: {{ user }}
+        append: true
+        groups: docker
+
     - name: Start Docker Service
       ansible.builtin.service:
         name: docker

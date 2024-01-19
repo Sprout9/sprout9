@@ -83,7 +83,8 @@ jobs:
             --extra-vars "\
               domain_name=${{ vars.DOMAIN_NAME }} \
               email_address=${{ secrets.CERTBOT_EMAIL }} \
-              ebs_volume_id=$(cat ${GITHUB_WORKSPACE}/ebs_volume_id.txt)"
+              ebs_volume_id=$(cat ${GITHUB_WORKSPACE}/ebs_volume_id.txt)" \
+              user=${{ secrets.REMOTE_USER }}
 
 
   push_nginx_to_registry:
