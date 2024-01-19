@@ -5,6 +5,12 @@ on:
   push:
     branches:
       - 'main'
+    paths:
+      - '.github/workflows/**'
+      - 'terraform/**'
+      - 'ansible/**'
+      - 'nginx/**'     # dependant
+      - 'docker-compose.yaml'
 
 jobs:
   apply_terraform_changes:

@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
   workflow_run:
     workflows: ["Sprout9 Infra Workflow"]
-    branches: [main]
+    branches: 
+      - main
     types:
       - completed
 
@@ -40,7 +41,7 @@ jobs:
           context: ./nginx
           file: ./nginx/Dockerfile
           push: true
-          tags: sprout9/sprout9:nginx-latest
+          tags: sprout9/nginx:latest
 
 
 

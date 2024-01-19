@@ -22,6 +22,4 @@ services:
       - "443:443"
     volumes:
       - /etc/letsencrypt:/etc/nginx/certs:ro
-    depends_on:
-      - forms
     restart: unless-stopped
