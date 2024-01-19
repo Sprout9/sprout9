@@ -1,5 +1,6 @@
 const { MongoClient, ObjectId } = require("mongodb")
 require('dotenv').config()
+const fs = require('fs')
 
 // Replace the uri string with your MongoDB deployment's connection string
 const uri = process.env.MONGODB_URI
@@ -10,49 +11,34 @@ async function run() {
 
         const db = client.db("test")
 
-        const now = new Date().getTime()
-        await db.collection("responses").updateMany({}, { $set: { timestamp: now } })
-
-        await db.collection("forms").updateMany({}, { $set: { send_email: true } })
-
-        const submit = {
-            type: "submit",
-            attributes: {
-                title: { text: "Bedankt voor het invullen" },
-                description: { text: "Je kunt deze pagina nu sluiten" }
+        const users = await db.collection("users").find().toArray()
+        const usersString = JSON.stringify(users);
+        fs.writeFile("users.json", usersString, (error) => {
+            if (error) {
+                console.log("users write error")
             }
-        }
+            console.log("users.json written correctly");
+        });
 
-        let fs = await db.collection("forms").aggregate().toArray()
-
-        for (let i = 0; i < fs.length; i++) {
-            let f = fs[i]
-
-
-            f.pages = [
-                ...f.pages,
-                submit
-            ]
-
-            await db.collection("forms").updateOne(
-                {
-                    _id: f._id,
-                },
-                {
-                    $set: {
-                        pages: f.pages,
-                    }
-                }
-            )
-        }
+        const forms = await db.collection("forms").find().toArray()
+        const formsString = JSON.stringify(forms);
+        fs.writeFile("forms.json", formsString, (error) => {
+            if (error) {
+                console.log("forms write error")
+            }
+            console.log("forms.json written correctly");
+        });
 
 
-        const res = await db.collection("responses").aggregate().toArray()
-        console.log(res)
 
-        fs = await db.collection("forms").aggregate().toArray()
-        console.log(fs)
-
+        const responses = await db.collection("responses").find().toArray()
+        const responsesString = JSON.stringify(responses);
+        fs.writeFile("responses.json", responsesString, (error) => {
+            if (error) {
+                console.log("responses write error")
+            }
+            console.log("responses.json written correctly");
+        });
 
     } finally {
         // Close the database connection on completion or error

@@ -1,3 +1,3 @@
-FROM arm64v8/nginx:latest
+FROM nginx:latest
 
 COPY --chown=root ./nginx.conf /etc/nginx/nginx.conf

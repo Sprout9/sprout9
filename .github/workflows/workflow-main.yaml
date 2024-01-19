@@ -111,6 +111,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       
       - name: Build and push Docker image
         if: steps.check.conclusion == 'success'
@@ -120,6 +123,8 @@ jobs:
           file: ./nginx/Dockerfile
           push: true
           tags: sprout9/nginx:latest
+          platforms:
+            - linux/arm64v8
 
 
 
@@ -155,5 +160,5 @@ jobs:
       - name: Deploy
         run: |
           docker context create remote --docker "host=ssh://${{ secrets.REMOTE_USER }}@$(cat ${GITHUB_WORKSPACE}/ip.txt)"
-          docker-compose --context remote pull nginx
-          docker-compose --context remote up -d nginx
+          docker-compose --context remote --platform linux/arm64v8 pull nginx
+          docker-compose --context remote --platform linux/arm64v8 up -d nginx

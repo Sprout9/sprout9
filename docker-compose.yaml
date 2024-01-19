@@ -9,7 +9,7 @@ services:
     restart: unless-stopped  # Automatically restart the container unless explicitly stopped
 
   mongodb:
-    image: arm64v8/mongo:latest
+    image: mongo:latest
     container_name: mongodb
     restart: always
     environment:

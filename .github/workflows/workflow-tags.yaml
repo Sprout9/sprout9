@@ -30,6 +30,9 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
@@ -38,6 +41,8 @@ jobs:
           file: ./forms/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          platforms:
+            - linux/arm64v8
           build-args: |
             MONGODB_URI=mongodb://${{ secrets.MONGO_INITDB_ROOT_USERNAME }}:${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}@mongodb:27017/?authSource=admin
             NODEMAILER_USER=${{ vars.NODEMAILER_USER }}
@@ -75,7 +80,7 @@ jobs:
       - name: Deploy
         run: |
           docker context create remote --docker "host=ssh://${{ secrets.REMOTE_USER }}@${{ vars.DOMAIN_NAME }}"
-          docker-compose --context remote pull forms
+          docker-compose --context remote --platform linux/arm64v8 pull forms
           MONGO_INITDB_ROOT_USERNAME="${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" \
             MONGO_INITDB_ROOT_PASSWORD="${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" \
-            docker-compose --context remote up -d forms
+            docker-compose --context remote --platform linux/arm64v8 up -d forms
