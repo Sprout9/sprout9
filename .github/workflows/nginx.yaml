@@ -1,0 +1,82 @@
+name: Sprout9 Nginx Workflow
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Sprout9 Infra Workflow"]
+    branches: [main]
+    types:
+      - completed
+
+jobs:
+  push_nginx_to_registry:
+    name: Push Nginx Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    outputs:
+      output1: ${{ steps.check.conclusion }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for Nginx changes
+        id: check
+        continue-on-error: true
+        run: $(! git diff --quiet HEAD^ ./nginx)
+      
+      - name: Log in to Docker Hub
+        if: steps.check.conclusion == 'success'
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+      
+      - name: Build and push Docker image
+        if: steps.check.conclusion == 'success'
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./nginx
+          file: ./nginx/Dockerfile
+          push: true
+          tags: sprout9/sprout9:nginx-latest
+
+
+
+  deploy_to_instance:
+    name: Deploy latest forms app version to instance Docker
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs:
+      - push_forms_to_registry
+    steps:
+      - name: Download IP artifact
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Setup SSH
+        shell: bash
+        run: |
+          eval `ssh-agent -s`
+          mkdir -p /home/runner/.ssh/
+          echo -e "${{ secrets.ED25519_PRIVATE_KEY }}" > /home/runner/.ssh/id_ed25519
+          chmod 700 /home/runner/.ssh/id_ed25519
+          ssh-keyscan -t rsa,dsa,ecdsa,ed25519 $(cat ${GITHUB_WORKSPACE}/ip.txt) >> /home/runner/.ssh/known_hosts
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+      - name: Deploy
+        # if: ${{ needs.push_nginx_to_registry.outputs.output1 == 'success'}}
+        run: |
+          docker context create remote --docker "host=ssh://${{ secrets.REMOTE_USER }}@$(cat ${GITHUB_WORKSPACE}/ip.txt)"
+          docker-compose --context remote pull
+          docker-compose --context remote up -d \
+            -e MONGO_INITDB_ROOT_USERNAME "${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" \
+            -e MONGO_INITDB_ROOT_PASSWORD "${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" \
+            nginx
