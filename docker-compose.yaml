@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  forms:
+    image: sprout9/sprout9:latest
+    container_name: forms
+    depends_on:
+      - mongodb
+    restart: unless-stopped  # Automatically restart the container unless explicitly stopped
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    volumes:
+      - /data/mongodb/:/data/db
+
+  nginx:
+    image: sprout9/sprout9:nginx-latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/nginx/certs:ro
+    depends_on:
+      - forms
+    restart: unless-stopped
