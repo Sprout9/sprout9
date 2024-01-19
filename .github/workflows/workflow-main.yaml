@@ -156,7 +156,7 @@ jobs:
         run: |
           docker context create remote --docker "host=ssh://${{ secrets.REMOTE_USER }}@$(cat ${GITHUB_WORKSPACE}/ip.txt)"
           docker-compose --context remote pull nginx
-          docker-compose --context remote up -d \
+          docker-compose -d --context remote up \
             -e MONGO_INITDB_ROOT_USERNAME "${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" \
             -e MONGO_INITDB_ROOT_PASSWORD "${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" \
             nginx

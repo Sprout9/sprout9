@@ -75,5 +75,5 @@ jobs:
       - name: Deploy
         run: |
           docker context create remote --docker "host=ssh://${{ secrets.REMOTE_USER }}@${{ vars.DOMAIN_NAME }}"
-          docker-compose --context remote pull forms
-          docker-compose --context remote up -d forms
+          docker-compose -d --context remote pull forms
+          docker-compose --context remote up forms

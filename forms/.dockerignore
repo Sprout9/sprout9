@@ -10,3 +10,5 @@ Dockerfile
 docker-compose.yaml
 scripts
 !scripts/update.js
+!scripts/import.js
+!scripts/export.js
