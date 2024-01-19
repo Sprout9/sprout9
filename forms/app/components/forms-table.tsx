@@ -16,11 +16,11 @@ export default async function FormsTable({
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
     const tableHeaders = [
-        <div>Creator</div>,
-        <div>Title</div>,
-        <div>Status</div>,
-        <div>Responses</div>,
-        <div></div>
+        <div key={1}>Creator</div>,
+        <div key={2}>Title</div>,
+        <div key={3}>Status</div>,
+        <div key={4}>Responses</div>,
+        <div key={5}></div>
     ]
 
     const itemsPerPage = 6

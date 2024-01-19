@@ -116,7 +116,9 @@ export type Form = FormConfig & {
 }
 
 export type UserWithForm = User & {
-    form: Form
+    form: Form & {
+        responses: number
+    }
 }
 
 export type UserWithForms = User & {

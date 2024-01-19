@@ -12,11 +12,11 @@ export default async function ResponsesTable({
 }) {
     const currentPage = Number(searchParams?.page) || 1;
     const tableHeaders = [
-        <div>Page</div>,
-        <div>Input</div>,
-        <div>Question</div>,
-        <div>Label</div>,
-        <div>Response</div>,
+        <div key={1}>Page</div>,
+        <div key={2}>Input</div>,
+        <div key={3}>Question</div>,
+        <div key={4}>Label</div>,
+        <div key={5}>Response</div>,
     ]
 
     const itemsPerPage = 3

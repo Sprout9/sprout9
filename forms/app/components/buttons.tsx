@@ -84,16 +84,6 @@ export function DeleteForm({ id }: { id: string }) {
     );
 }
 
-export const SaveForm = forwardRef(({ action }: { action: () => void }, ref: ForwardedRef<HTMLFormElement>) => {
-    return (
-        <form action={action} ref={ref} className="save-form-button">
-            <button>
-                Save Changes
-            </button>
-        </form>
-    )
-})
-
 export function AddPage({ action }: { action: () => void }) {
     return (
         <form action={action} className="add-page-button">
