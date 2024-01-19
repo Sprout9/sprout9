@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     needs:
-      - push_forms_to_registry
+      - push_nginx_to_registry
     steps:
       - name: Download IP artifact
         uses: actions/download-artifact@v4
