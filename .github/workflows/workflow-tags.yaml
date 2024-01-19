@@ -76,6 +76,6 @@ jobs:
         run: |
           docker context create remote --docker "host=ssh://${{ secrets.REMOTE_USER }}@${{ vars.DOMAIN_NAME }}"
           docker-compose --context remote pull forms
-          docker-compose --context remote up -d forms \
-            -e MONGO_INITDB_ROOT_USERNAME "${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" \
-            -e MONGO_INITDB_ROOT_PASSWORD "${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" \
+          MONGO_INITDB_ROOT_USERNAME="${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" \
+            MONGO_INITDB_ROOT_PASSWORD="${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" \
+            docker-compose --context remote up -d forms
