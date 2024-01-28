@@ -16,8 +16,6 @@ import { ArrowLeftIcon } from "./icons"
 import Link from "next/link"
 import debounce from "../lib/debounce"
 
-export const dynamic = 'force-dynamic' // defaults to auto
-
 function clearResponses(form: Form): Form {
     return {
         ...form, pages: form.pages.map(page => {
@@ -55,7 +53,7 @@ function clearResponses(form: Form): Form {
     }
 }
 
-
+export const dynamic = 'force-dynamic'
 export default function FormEditor({ form }: { form: Form }) {
     const searchParams = useSearchParams()
     const pathname = usePathname()
