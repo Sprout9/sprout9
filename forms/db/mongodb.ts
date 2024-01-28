@@ -1,6 +1,7 @@
 import { MongoClient } from 'mongodb'
 import { unstable_noStore as noStore } from 'next/cache';
 
+export const dynamic = 'force-dynamic'
 function getUri(): string {
     noStore()
     if (!process.env.MONGODB_URI) {
