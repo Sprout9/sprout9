@@ -1,6 +1,8 @@
 import { MongoClient } from 'mongodb'
+import { unstable_noStore as noStore } from 'next/cache';
 
 function getUri(): string {
+    noStore()
     if (!process.env.MONGODB_URI) {
         throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
     }
