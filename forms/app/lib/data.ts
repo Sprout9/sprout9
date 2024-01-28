@@ -455,7 +455,6 @@ export async function downloadUserData(): Promise<UserWithForms> {
                     _id: { $toString: "$_id" }, // Convert user _id ObjectId to string
                     name: 1,
                     email: 1,
-                    password: 1,
                     first_name: 1,
                     last_name: 1,
                     forms: 1

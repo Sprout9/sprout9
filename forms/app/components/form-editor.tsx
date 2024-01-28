@@ -16,6 +16,8 @@ import { ArrowLeftIcon } from "./icons"
 import Link from "next/link"
 import debounce from "../lib/debounce"
 
+export const dynamic = 'force-dynamic' // defaults to auto
+
 function clearResponses(form: Form): Form {
     return {
         ...form, pages: form.pages.map(page => {
@@ -72,9 +74,9 @@ export default function FormEditor({ form }: { form: Form }) {
     useEffect(() => {
         // npm build will call this useEffect for prerendering, 
         // accessing the MONGODB_URI which is not yet availabel at build time.
-        if (typeof window !== 'undefined') {
-            saveForm(clearResponses(formState));
-        }
+        // if (typeof window !== 'undefined') {
+        saveForm(clearResponses(formState));
+        // }
     }, [formState]);
 
 
