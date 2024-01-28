@@ -4,9 +4,11 @@ import { PowerIcon } from "@/app/components/icons";
 import { signOut } from "@/auth";
 import AccountForm from "../components/account-form";
 import { getUser } from "../lib/data";
+import { unstable_noStore as noStore } from 'next/cache';
 
 export const dynamic = 'force-dynamic'
 export default async function Page() {
+    noStore()
 
     const user = await getUser()
 
