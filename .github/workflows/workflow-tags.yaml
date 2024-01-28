@@ -1,7 +1,6 @@
 name: Sprout9 Forms App Tags Workflow
 
 on:
-  workflow_dispatch:
   push:
     tags:
       - 'v*'
@@ -42,13 +41,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           platforms: linux/arm64,linux/amd64
-          build-args: |
-            MONGODB_URI="${{ secrets.MONGODB_URI }}"
-            MONGODB_URII="mongodb://${{ secrets.MONGO_INITDB_ROOT_USERNAME }}:${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}@mongodb:27017/?authSource=admin"
-            NODEMAILER_USER="${{ vars.NODEMAILER_USER }}"
-            NODEMAILER_PASS="${{ secrets.NODEMAILER_PASS }}"
-            NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}"
-            NEXTAUTH_URL="${{ vars.HTTPS_DOMAIN_NAME }}"
 
 
   deploy_to_instance:
@@ -82,5 +74,10 @@ jobs:
           docker context create remote --docker "host=ssh://${{ secrets.REMOTE_USER }}@${{ vars.DOMAIN_NAME }}"
           docker-compose --context remote pull forms
           MONGO_INITDB_ROOT_USERNAME="${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" \
-            MONGO_INITDB_ROOT_PASSWORD="${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" \
-            docker-compose --context remote up -d forms
+          MONGO_INITDB_ROOT_PASSWORD="${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" \
+          MONGODB_URI="mongodb://${{ secrets.MONGO_INITDB_ROOT_USERNAME }}:${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}@mongodb:27017/?authSource=admin" \
+          NODEMAILER_USER="${{ vars.NODEMAILER_USER }}" \
+          NODEMAILER_PASS="${{ secrets.NODEMAILER_PASS }}" \
+          NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" \
+          NEXTAUTH_URL="${{ vars.HTTPS_DOMAIN_NAME }}" \
+          docker-compose --context remote up -d forms
