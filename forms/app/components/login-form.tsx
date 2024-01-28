@@ -47,12 +47,12 @@ export default function LoginForm() {
                 </div>
             </div>
 
-            <button type="submit" aria-disabled={pending}>
-                <label htmlFor="submitted">Log in</label>
+            <button type="submit" aria-disabled={pending} className="w-full">
+                <label htmlFor="submitted" className="w-full">Log in</label>
                 <ArrowRightIcon />
             </button>
-            <a href="/create-account">
-                <label>Create account</label>
+            <a href="/create-account" className="w-full">
+                <label className="w-full">Create account</label>
                 <ArrowRightIcon />
             </a>
 

@@ -1574,3 +1574,7 @@ main {
         font-family: var(--sans-serif);
     }
 }
+
+.w-full {
+    width: 100%;
+}

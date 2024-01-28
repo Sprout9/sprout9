@@ -99,12 +99,12 @@ export default function CreateAccountForm({
 
             {state === 'parsing-error' && <p className="error">Some fields are invalid</p>}
             {state === 'email-already-taken' && <p className="error">Email already taken</p>}
-            <button type="submit" disabled={pending}>
-                <label htmlFor="submitted">Create User</label>
+            <button type="submit" disabled={pending} className="w-full">
+                <label htmlFor="submitted" className="w-full">Create User</label>
                 <ArrowRightIcon />
             </button>
-            <a href="/login">
-                <label>Login</label>
+            <a href="/login" className="w-full">
+                <label className="w-full">Login</label>
                 <ArrowRightIcon />
             </a>
         </form>
