@@ -4,9 +4,11 @@ import { AtSymbolIcon, KeyIcon, UserCircleIcon } from "@/app/components/icons";
 import { updateUser } from "@/app/lib/data";
 import { User } from "@/app/lib/types";
 import { useFormState } from "react-dom";
+import { unstable_noStore as noStore } from 'next/cache';
 
 export const dynamic = 'force-dynamic'
 export default function AccountForm({ user }: { user: User }) {
+    noStore()
     const [state, action] = useFormState(updateUser, undefined)
     return (
         <main className="login-page">
