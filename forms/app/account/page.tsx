@@ -2,13 +2,10 @@ import Link from "next/link";
 import Logo from "@/app/components/logo"
 import { PowerIcon } from "@/app/components/icons";
 import { signOut } from "@/auth";
-import AccountForm from "../components/account-form";
-import { getUser } from "../lib/data";
-import { unstable_noStore as noStore } from 'next/cache';
+import AccountForm from "@/app/components/account-form";
+import { getUser, updateUser } from "@/app/lib/data";
 
-export const dynamic = 'force-dynamic'
 export default async function Page() {
-    noStore()
 
     const user = await getUser()
 
@@ -30,7 +27,7 @@ export default async function Page() {
                 </form>
             </div>
 
-            <AccountForm user={user} />
+            <AccountForm user={user} updateUser={updateUser} />
         </main >
     )
 }

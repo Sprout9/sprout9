@@ -3,6 +3,7 @@ import Logo from "@/app/components/logo"
 import { Cog6ToothIcon, PowerIcon } from "@/app/components/icons";
 import { signOut } from "@/auth";
 import Link from "next/link";
+import { createForm, deleteForm, fetchFilteredForms, fetchFormsTotal } from "@/app/lib/data";
 
 export default function Home({
     searchParams,
@@ -12,7 +13,6 @@ export default function Home({
         page?: string;
     };
 }) {
-
 
     return (
         <main>
@@ -27,8 +27,8 @@ export default function Home({
                 </Link>
                 <form
                     action={async () => {
-                        'use server';
-                        await signOut();
+                        'use server'
+                        await signOut()
                     }}
                 >
                     <button className="logout-button">
@@ -39,7 +39,13 @@ export default function Home({
             </div>
 
             <div className="main-grid">
-                <FormsTable searchParams={searchParams} />
+                <FormsTable
+                    searchParams={searchParams}
+                    createForm={createForm}
+                    deleteForm={deleteForm}
+                    fetchFilteredForms={fetchFilteredForms}
+                    fetchFormsTotal={fetchFormsTotal}
+                />
             </div>
         </main >
     )

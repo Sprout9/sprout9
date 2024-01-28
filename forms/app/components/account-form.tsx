@@ -1,14 +1,16 @@
 'use client'
 
 import { AtSymbolIcon, KeyIcon, UserCircleIcon } from "@/app/components/icons";
-import { updateUser } from "@/app/lib/data";
 import { User } from "@/app/lib/types";
 import { useFormState } from "react-dom";
-import { unstable_noStore as noStore } from 'next/cache';
 
-export const dynamic = 'force-dynamic'
-export default function AccountForm({ user }: { user: User }) {
-    noStore()
+export default function AccountForm({
+    user,
+    updateUser
+}: {
+    user: User,
+    updateUser: (prevState: string | undefined, formData: FormData) => Promise<"parsing-error" | "wrong-password" | "new-password-not-matching" | undefined>
+}) {
     const [state, action] = useFormState(updateUser, undefined)
     return (
         <main className="login-page">

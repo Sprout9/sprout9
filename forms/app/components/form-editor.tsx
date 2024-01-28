@@ -10,11 +10,10 @@ import { useState, useEffect, useCallback } from "react"
 import PageActions from "@/app/components/page-actions"
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 import { DEFAULT_INPUTS_PAGE } from "@/app/lib/default"
-import { updateForm } from "@/app/lib/data"
 import { PageButtons } from "@/app/components/buttons"
-import { ArrowLeftIcon } from "./icons"
+import { ArrowLeftIcon } from "@/app/components/icons"
 import Link from "next/link"
-import debounce from "../lib/debounce"
+import debounce from "@/app/lib/debounce"
 
 function clearResponses(form: Form): Form {
     return {
@@ -53,8 +52,13 @@ function clearResponses(form: Form): Form {
     }
 }
 
-export const dynamic = 'force-dynamic'
-export default function FormEditor({ form }: { form: Form }) {
+export default function FormEditor({
+    form,
+    updateForm
+}: {
+    form: Form,
+    updateForm: (form: Form) => Promise<void>
+}) {
     const searchParams = useSearchParams()
     const pathname = usePathname()
     const { replace } = useRouter()

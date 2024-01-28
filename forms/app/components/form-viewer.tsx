@@ -5,10 +5,15 @@ import PageView from "@/app/components/page-view";
 import { FormConfig } from "@/app/lib/types";
 import { PageButtons } from "@/app/components/buttons";
 import { useState } from "react";
-import { handleResponse } from "@/app/lib/data";
 import { usePathname } from "next/navigation";
 
-export default function FormViewer({ form }: { form: Form }) {
+export default function FormViewer({
+    form,
+    handleResponse
+}: {
+    form: Form,
+    handleResponse: (form: Form) => Promise<void>
+}) {
 
     const [formState, setFormState] = useState(form)
     const setPageState = (index: number) => (pageState: Page) => setFormState(prev => {

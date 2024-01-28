@@ -2,16 +2,24 @@ import Table from '@/app/components/table'
 import Search from '@/app/components/search'
 import Pagination from '@/app/components/pagination'
 import { UpdateForm, DeleteForm, CreateForm, ViewResponses, DownloadUserData } from '@/app/components/buttons'
-import { fetchFilteredForms, fetchFormsTotal } from '@/app/lib/data'
 import { CheckIcon, ClockIcon } from '@/app/components/icons'
+import { UserWithForm } from '@/app/lib/types'
 
 export default async function FormsTable({
     searchParams,
+    createForm,
+    deleteForm,
+    fetchFilteredForms,
+    fetchFormsTotal
 }: {
     searchParams?: {
         query?: string;
         page?: string;
-    };
+    },
+    createForm: () => Promise<void>,
+    deleteForm: (id: string) => Promise<void>,
+    fetchFilteredForms: (itemsPerPage: number, query: string, currentPage: number) => Promise<UserWithForm[]>,
+    fetchFormsTotal: (query: string) => Promise<number>
 }) {
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
@@ -37,7 +45,7 @@ export default async function FormsTable({
                 <div><ViewResponses id={form.form.id} responses={form.form.responses} /></div>,
                 <div className="table-buttons">
                     <UpdateForm id={form.form.id} />
-                    <DeleteForm id={form.form.id} />
+                    <DeleteForm id={form.form.id} deleteForm={deleteForm} />
                 </div>
             ]
         }
@@ -52,7 +60,7 @@ export default async function FormsTable({
                 <div className="forms-table-header">Forms</div>
                 <div className="forms-table-search">
                     <Search placeholder="Search forms..." />
-                    <CreateForm />
+                    <CreateForm createForm={createForm} />
                     <DownloadUserData />
                 </div>
                 <Table headers={tableHeaders} rows={tableRows} />

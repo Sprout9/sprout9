@@ -1,9 +1,7 @@
 import FormEditor from "@/app/components/form-editor"
-import { fetchForm } from "@/app/lib/data"
+import { fetchForm, updateForm } from "@/app/lib/data"
 import { notFound } from "next/navigation";
-import { unstable_noStore as noStore } from 'next/cache';
 
-export const dynamic = 'force-dynamic'
 export default async function Page({
     params,
 }: {
@@ -11,7 +9,6 @@ export default async function Page({
         id?: string
     }
 }) {
-    noStore()
     const formId = params?.id || ""
     const form = await fetchForm(formId)
 
@@ -23,7 +20,7 @@ export default async function Page({
 
     return (
         < main >
-            <FormEditor form={form} />
+            <FormEditor form={form} updateForm={updateForm} />
         </main >
     )
 }

@@ -1,5 +1,5 @@
 import FormViewer from "@/app/components/form-viewer";
-import { fetchForm } from "@/app/lib/data"
+import { fetchForm, handleResponse } from "@/app/lib/data"
 import { notFound } from "next/navigation";
 
 
@@ -22,7 +22,7 @@ export default async function Page({
     }
 
     return (
-        <FormViewer form={form} />
+        <FormViewer form={form} handleResponse={handleResponse} />
     )
 }
 

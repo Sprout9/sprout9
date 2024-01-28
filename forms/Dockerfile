@@ -11,8 +11,12 @@ RUN npm ci
 # Copy the local code to the container's working directory
 COPY . .
 
-# Set the environment variable to production
+# Set dummy environment variables, should be overwritten at runtime.
 ENV NODE_ENV=production
+ENV DB_NAME=dummy
+ENV MONGODB_URI="mongodb://dummy:dummy@dummy.com"
+ENV NODEMAILER_USER=dummy
+ENV NODEMAILER_PASS=dummy
 
 # Build the Next.js app
 RUN npm run build

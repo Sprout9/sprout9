@@ -1,12 +1,14 @@
 'use client'
 
 import { useFormState, useFormStatus } from "react-dom";
-import { ArrowRightIcon, AtSymbolIcon, KeyIcon, UserCircleIcon } from "./icons";
-import { createUser } from "@/app/lib/data";
+import { ArrowRightIcon, AtSymbolIcon, KeyIcon, UserCircleIcon } from "@/app/components/icons";
 import { redirect } from "next/navigation";
 
-export const dynamic = 'force-dynamic'
-export default function CreateAccountForm() {
+export default function CreateAccountForm({
+    createUser
+}: {
+    createUser: (prevState: string | undefined, formData: FormData) => Promise<"parsing-error" | "email-already-taken" | "success">
+}) {
     const [state, action] = useFormState(createUser, undefined);
 
     const { pending } = useFormStatus()

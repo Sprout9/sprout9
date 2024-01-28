@@ -2,6 +2,7 @@ import ResponsesTable from "@/app/components/responses-table"
 import Logo from "@/app/components/logo"
 import { PowerIcon } from "@/app/components/icons";
 import { signOut } from "@/auth";
+import { fetchResponses, fetchTotalResponses } from "@/app/lib/data";
 
 export default function Page({
     searchParams,
@@ -35,7 +36,12 @@ export default function Page({
             </div>
 
             <div className="main-grid">
-                <ResponsesTable formId={formId} searchParams={searchParams} />
+                <ResponsesTable
+                    formId={formId}
+                    searchParams={searchParams}
+                    fetchResponses={fetchResponses}
+                    fetchTotalResponses={fetchTotalResponses}
+                />
             </div>
         </main >
     )

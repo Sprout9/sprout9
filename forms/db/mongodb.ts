@@ -1,8 +1,13 @@
 import { MongoClient } from 'mongodb'
-import { unstable_noStore as noStore } from 'next/cache';
+
+export function getDbName(): string {
+    if (!process.env.DB_NAME) {
+        throw new Error('Invalid/Missing environment variable: "DB_NAME"')
+    }
+    return process.env.DB_NAME
+}
 
 function getUri(): string {
-    noStore()
     if (!process.env.MONGODB_URI) {
         throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
     }
@@ -11,15 +16,8 @@ function getUri(): string {
 
 const options = {}
 
-let clientPromise: Promise<MongoClient> | null = null;
-
-function getClientPromise() {
-    if (!clientPromise) {
-        const client = new MongoClient(getUri(), options);
-        clientPromise = client.connect();
-    }
-    return clientPromise;
-}
+let client
+let clientPromise: Promise<MongoClient>
 
 if (process.env.NODE_ENV === 'development') {
     // In development mode, use a global variable so that the value
@@ -29,19 +27,15 @@ if (process.env.NODE_ENV === 'development') {
     }
 
     if (!globalWithMongo._mongoClientPromise) {
-        globalWithMongo._mongoClientPromise = getClientPromise();
+        client = new MongoClient(getUri(), options)
+        globalWithMongo._mongoClientPromise = client.connect();
     }
     clientPromise = globalWithMongo._mongoClientPromise
 } else {
     // In production mode, it's best to not use a global variable.
-    clientPromise = getClientPromise();
+    client = new MongoClient(getUri(), options)
+    clientPromise = client.connect();
 }
 
-export const dynamic = 'force-dynamic'
-export default function getMongoClientPromise() {
-    noStore()
-    if (!clientPromise) {
-        clientPromise = getClientPromise();
-    }
-    return clientPromise;
-}
+
+export default clientPromise

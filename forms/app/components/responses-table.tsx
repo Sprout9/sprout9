@@ -1,14 +1,18 @@
 import Pagination from '@/app/components/pagination'
-import { fetchResponses, fetchTotalResponses } from '@/app/lib/data'
+import { ResponseWithId } from '@/app/lib/types';
 
 export default async function ResponsesTable({
     formId,
     searchParams,
+    fetchResponses,
+    fetchTotalResponses
 }: {
     formId: string,
     searchParams?: {
         page?: string;
-    };
+    },
+    fetchResponses: (formId: string, itemsPerPage: number, currentPage: number) => Promise<ResponseWithId[]>
+    fetchTotalResponses: (formId: string) => Promise<number>
 }) {
     const currentPage = Number(searchParams?.page) || 1;
     const tableHeaders = [

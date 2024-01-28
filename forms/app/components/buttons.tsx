@@ -3,8 +3,7 @@
 import Link from 'next/link'
 import { DocumentArrowDownIcon, PencilIcon, PlusIcon, TrashIcon } from '@/app/components/icons'
 import { join } from '@/app/lib/clsx'
-import { createForm, deleteForm } from '@/app/lib/data'
-import { forwardRef, ForwardedRef, useState } from 'react'
+import { useState } from 'react'
 
 export function PageButtons({
     pageNumber,
@@ -55,8 +54,11 @@ export function UpdateForm({ id }: { id: string }) {
     );
 }
 
-export function CreateForm() {
-    // let [disabled, setDisabled] = useState(false)
+export function CreateForm({
+    createForm
+}: {
+    createForm: () => Promise<void>
+}) {
     return (
         <form action={() => {
             createForm()
@@ -69,7 +71,13 @@ export function CreateForm() {
     )
 }
 
-export function DeleteForm({ id }: { id: string }) {
+export function DeleteForm({
+    id,
+    deleteForm
+}: {
+    id: string,
+    deleteForm: (id: string) => Promise<void>
+}) {
     let [isFocused, setIsFocused] = useState(false)
     if (isFocused) {
         setTimeout(() => setIsFocused(false), 1000)

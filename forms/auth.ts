@@ -1,7 +1,7 @@
 import NextAuth, { DefaultSession } from "next-auth"
 import { authConfig } from './auth.config'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import getMongoClientPromise from '@/db/mongodb'
+import lazyClient, { getDbName } from '@/db/mongodb'
 import { z } from 'zod'
 import type { User } from './app/lib/types'
 import bcrypt from 'bcrypt'
@@ -15,15 +15,10 @@ declare module "next-auth" {
     }
 }
 
-if (!process.env.DB_NAME) {
-    throw new Error('Invalid/Missing environment variable: "DB_NAME"')
-}
-const dbName = process.env.DB_NAME
-
 async function getUser(email: string): Promise<User | undefined> {
     try {
-        const client = await getMongoClientPromise()
-        const user = await client.db(dbName).collection("users").aggregate<User>([
+        const client = await lazyClient
+        const user = await client.db(getDbName()).collection("users").aggregate<User>([
             { $match: { email: email } },
             { $addFields: { id: { $toString: "$_id" } } },
             { $project: { _id: 0 } },

@@ -3,7 +3,6 @@
 import { useFormState, useFormStatus } from "react-dom";
 import { ArrowRightIcon, AtSymbolIcon, KeyIcon } from "./icons";
 import { authenticate } from "../lib/actions";
-import Link from "next/link";
 
 export default function LoginForm() {
     const [state, action] = useFormState(authenticate, undefined);
