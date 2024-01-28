@@ -5,6 +5,7 @@ import { ArrowRightIcon, AtSymbolIcon, KeyIcon, UserCircleIcon } from "./icons";
 import { createUser } from "@/app/lib/data";
 import { redirect } from "next/navigation";
 
+export const dynamic = 'force-dynamic'
 export default function CreateAccountForm() {
     const [state, action] = useFormState(createUser, undefined);
 

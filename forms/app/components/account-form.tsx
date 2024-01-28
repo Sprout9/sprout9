@@ -5,6 +5,7 @@ import { updateUser } from "@/app/lib/data";
 import { User } from "@/app/lib/types";
 import { useFormState } from "react-dom";
 
+export const dynamic = 'force-dynamic'
 export default function AccountForm({ user }: { user: User }) {
     const [state, action] = useFormState(updateUser, undefined)
     return (

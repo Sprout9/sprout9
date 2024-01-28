@@ -5,6 +5,7 @@ import { signOut } from "@/auth";
 import AccountForm from "../components/account-form";
 import { getUser } from "../lib/data";
 
+export const dynamic = 'force-dynamic'
 export default async function Page() {
 
     const user = await getUser()
