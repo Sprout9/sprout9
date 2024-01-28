@@ -1,5 +1,3 @@
-'use server'
-
 import { downloadUserData } from "@/app/lib/data"
 
 export const dynamic = 'force-dynamic' // defaults to auto
