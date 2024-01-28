@@ -49,6 +49,9 @@ jobs:
     needs:
       - push_forms_to_registry
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        
       - name: Download IP artifact
         uses: actions/download-artifact@v4
         with:
