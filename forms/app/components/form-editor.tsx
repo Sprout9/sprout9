@@ -70,8 +70,13 @@ export default function FormEditor({ form }: { form: Form }) {
     )
 
     useEffect(() => {
-        saveForm(clearResponses(formState))
-    }, [formState])
+        // npm build will call this useEffect for prerendering, 
+        // accessing the MONGODB_URI which is not yet availabel at build time.
+        if (typeof window !== 'undefined') {
+            saveForm(clearResponses(formState));
+        }
+    }, [formState]);
+
 
     useEffect(() => {
         if (currentPageIndex < 0 ||
