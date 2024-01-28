@@ -11,21 +11,8 @@ RUN npm ci
 # Copy the local code to the container's working directory
 COPY . .
 
-# enable args
-# ARG MONGODB_URI
-# ARG NODEMAILER_USER
-# ARG NODEMAILER_PASS
-# ARG NEXTAUTH_SECRET
-# ARG NEXTAUTH_URL
-
 # Set the environment variable to production
 ENV NODE_ENV=production
-# ENV DB_NAME=forms
-# ENV MONGODB_URI=${MONGODB_URI}
-# ENV NODEMAILER_USER=${NODEMAILER_USER}
-# ENV NODEMAILER_PASS=${NODEMAILER_PASS}
-# ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-# ENV NEXTAUTH_URL=${HTTPS_DOMAIN_NAME}
 
 # Build the Next.js app
 RUN npm run build
