@@ -494,6 +494,7 @@ export async function updateUser(
     prevState: string | undefined,
     formData: FormData,
 ) {
+    noStore()
     const parsed = z
         .object({
             email: z.string().email(),
@@ -508,8 +509,6 @@ export async function updateUser(
     if (!parsed.success) {
         return "parsing-error"
     }
-
-    noStore()
     const userId = (await auth())?.user.id
 
     try {
