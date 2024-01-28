@@ -1,6 +1,6 @@
 'use server'
 
-import lazyClient from '@/db/mongodb'
+import getMongoClientPromise from '@/db/mongodb'
 import { ObjectId } from 'mongodb'
 import { unstable_noStore as noStore, revalidatePath } from 'next/cache'
 import { UserWithForm, Form, InputResponse, Response, isInputsPage, InputsPage, isTextAreaPage, TextAreaPage, User, ResponseWithId, UserWithForms, isMultipleChoicePage } from "@/app/lib/types"
@@ -28,7 +28,7 @@ export async function fetchForm(id: string): Promise<Form | undefined> {
     const userId = (await auth())?.user.id
 
     try {
-        const client = await lazyClient
+        const client = await getMongoClientPromise()
         const form = await client.db(dbName).collection("forms").aggregate<Form>([
             {
                 $match: {
@@ -62,7 +62,7 @@ export async function fetchFilteredForms(
     const userId = (await auth())?.user.id
 
     try {
-        const client = await lazyClient;
+        const client = await getMongoClientPromise();
         const forms = await client.db(dbName).collection("users").aggregate<UserWithForm>([
             { $match: { _id: new ObjectId(userId) } },
             {
@@ -110,7 +110,7 @@ export async function fetchFormsTotal(
     const userId = (await auth())?.user.id
 
     try {
-        const client = await lazyClient
+        const client = await getMongoClientPromise()
         const forms = await client.db(dbName).collection("users").aggregate<FormsTotal>([
             { $match: { _id: new ObjectId(userId) } },
             {
@@ -186,7 +186,7 @@ export async function handleResponse(form: Form) {
     noStore()
 
     const response = parseResponseForm(form)
-    const client = await lazyClient
+    const client = await getMongoClientPromise()
     try {
         await client.db(dbName).collection("responses").insertOne(
             {
@@ -266,7 +266,7 @@ export async function updateForm(
     const userId = (await auth())?.user.id
 
     try {
-        const client = await lazyClient
+        const client = await getMongoClientPromise()
         await client.db(dbName).collection("forms").updateOne(
             {
                 _id: new ObjectId(form.id),
@@ -304,7 +304,7 @@ export async function createForm() {
     let res: { insertedId: ObjectId | undefined } = { insertedId: undefined }
 
     try {
-        const client = await lazyClient
+        const client = await getMongoClientPromise()
         res = await client.db(dbName).collection("forms").insertOne(form)
 
     } catch (err) {
@@ -325,7 +325,7 @@ export async function deleteForm(
     noStore()
     const userId = (await auth())?.user.id
     try {
-        const client = await lazyClient
+        const client = await getMongoClientPromise()
         await client.db(dbName).collection("forms").deleteOne(
             { _id: new ObjectId(id), user_id: new ObjectId(userId) }
         )
@@ -347,7 +347,7 @@ export async function fetchResponses(
     const userId = (await auth())?.user.id
 
     try {
-        const client = await lazyClient;
+        const client = await getMongoClientPromise();
         const forms = await client.db(dbName).collection("responses").aggregate<ResponseWithId>([
             { $match: { form_id: new ObjectId(formId), user_id: new ObjectId(userId) } },
             { $sort: { _id: -1 } },
@@ -375,7 +375,7 @@ export async function fetchTotalResponses(
     const userId = (await auth())?.user.id
 
     try {
-        const client = await lazyClient;
+        const client = await getMongoClientPromise();
 
         const responses = await client.db(dbName).collection("responses").aggregate<ResponsesTotal>([
             { $match: { form_id: new ObjectId(formId), user_id: new ObjectId(userId) } },
@@ -395,7 +395,7 @@ export async function downloadUserData(): Promise<UserWithForms> {
     const userId = (await auth())?.user.id
 
     try {
-        const client = await lazyClient;
+        const client = await getMongoClientPromise();
 
         const userData = await client.db(dbName).collection("users").aggregate<UserWithForms>([
             { $match: { _id: new ObjectId(userId) } },
@@ -478,7 +478,7 @@ export async function getUser(): Promise<User> {
     noStore()
     const userId = (await auth())?.user.id
     try {
-        const client = await lazyClient
+        const client = await getMongoClientPromise()
         const user = await client.db(dbName).collection("users").aggregate<User>([
             { $match: { _id: new ObjectId(userId) } },
             { $addFields: { id: { $toString: "$_id" } } },
@@ -515,7 +515,7 @@ export async function updateUser(
 
     try {
 
-        const client = await lazyClient
+        const client = await getMongoClientPromise()
 
         const user = await client.db(dbName).collection("users").aggregate<User>([
             { $match: { _id: new ObjectId(userId) } }
@@ -589,7 +589,7 @@ export async function createUser(
     noStore()
     try {
 
-        const client = await lazyClient
+        const client = await getMongoClientPromise()
 
         const user = await client.db(dbName).collection("users").aggregate<User>([
             { $match: { email: parsed.data.email } }

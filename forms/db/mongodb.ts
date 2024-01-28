@@ -9,8 +9,15 @@ function getUri(): string {
 
 const options = {}
 
-let client
-let clientPromise: Promise<MongoClient>
+let clientPromise: Promise<MongoClient> | null = null;
+
+function getClientPromise() {
+    if (!clientPromise) {
+        const client = new MongoClient(getUri(), options);
+        clientPromise = client.connect();
+    }
+    return clientPromise;
+}
 
 if (process.env.NODE_ENV === 'development') {
     // In development mode, use a global variable so that the value
@@ -20,16 +27,17 @@ if (process.env.NODE_ENV === 'development') {
     }
 
     if (!globalWithMongo._mongoClientPromise) {
-        client = new MongoClient(getUri(), options)
-        globalWithMongo._mongoClientPromise = client.connect()
+        globalWithMongo._mongoClientPromise = getClientPromise();
     }
     clientPromise = globalWithMongo._mongoClientPromise
 } else {
     // In production mode, it's best to not use a global variable.
-    client = new MongoClient(getUri(), options)
-    clientPromise = client.connect()
+    clientPromise = getClientPromise();
 }
 
-// Export a module-scoped MongoClient promise. By doing this in a
-// separate module, the client can be shared across functions.
-export default clientPromise
+export default function getMongoClientPromise() {
+    if (!clientPromise) {
+        clientPromise = getClientPromise();
+    }
+    return clientPromise;
+}
