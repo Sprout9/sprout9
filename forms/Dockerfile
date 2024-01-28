@@ -11,7 +11,7 @@ RUN npm ci
 # Copy the local code to the container's working directory
 COPY . .
 
-# Set dummy environment variables, should be overwritten at runtime.
+# Set build environment variables, can be overwritten at runtime.
 ENV NODE_ENV=production
 ENV DB_NAME=dummy
 ENV MONGODB_URI="mongodb://dummy:dummy@dummy.com"

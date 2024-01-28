@@ -6,7 +6,7 @@ services:
     container_name: forms
     depends_on:
       - mongodb
-    restart: unless-stopped  # Automatically restart the container unless explicitly stopped
+    restart: unless-stopped
     environment:
       MONGODB_URI: "${MONGODB_URI}"
       NODEMAILER_USER: "${NODEMAILER_USER}"
@@ -29,8 +29,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    # depends_on:
-    #   - forms
+    depends_on:
+      - forms
     volumes:
       - /etc/letsencrypt:/etc/nginx/certs:ro
     restart: unless-stopped
