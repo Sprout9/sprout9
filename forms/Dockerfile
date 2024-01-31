@@ -17,6 +17,7 @@ ENV DB_NAME=dummy
 ENV MONGODB_URI="mongodb://dummy:dummy@dummy.com"
 ENV NODEMAILER_USER=dummy
 ENV NODEMAILER_PASS=dummy
+ENV NODE_OPTIONS="--max-old-space-size=256"
 
 # Build the Next.js app
 RUN npm run build
@@ -30,4 +31,4 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Start the Next.js app
-CMD ["npm", "start", "--", "--max-old-space-size=256"]
+CMD ["npm", "start"]
