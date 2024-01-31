@@ -84,5 +84,5 @@ jobs:
         run: |
           docker context create remote --docker "host=ssh://${{ secrets.REMOTE_USER }}@${{ vars.DOMAIN_NAME }}"
           docker context use remote
-          docker-compose pull forms
-          docker-compose up -d forms
+          docker-compose pull
+          docker-compose up -d
