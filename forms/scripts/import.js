@@ -11,29 +11,69 @@ async function run() {
 
         const db = client.db("forms")
 
+        await db.dropCollection("users")
+        await db.dropCollection("forms")
+        await db.dropCollection("responses")
+
         try {
             const usersData = fs.readFileSync("users.json");
-            const users = JSON.parse(usersData);
+            let users = JSON.parse(usersData);
+            users = users.map(u => {
+                return {
+                    ...u,
+                    _id: new ObjectId(u._id),
+                }
+            })
 
             await db.collection("users").insertMany(users)
         } catch (error) {
             console.log("users write error")
         }
 
+        const submit = {
+            type: "submit",
+            attributes: {
+                title: { text: "Bedankt voor het invullen" },
+                description: { text: "Je kunt deze pagina nu sluiten" }
+            }
+        }
+
 
         try {
             const formsData = fs.readFileSync("forms.json");
-            const forms = JSON.parse(formsData);
+            let forms = JSON.parse(formsData);
+            forms = forms.map(f => {
+                return {
+                    ...f,
+                    _id: new ObjectId(f._id),
+                    user_id: new ObjectId(f.user_id),
+                    pages: [
+                        ...f.pages,
+                        submit
+                    ],
+                    send_email: true,
+                }
+            })
 
             await db.collection("forms").insertMany(forms)
         } catch (error) {
             console.log("forms write error")
         }
 
+        const now = new Date().getTime()
 
         try {
             const responsesData = fs.readFileSync("responses.json");
-            const responses = JSON.parse(responsesData);
+            let responses = JSON.parse(responsesData);
+            responses = responses.map(r => {
+                return {
+                    ...r,
+                    _id: new ObjectId(r._id),
+                    user_id: new ObjectId(r._user_id),
+                    form_id: new ObjectId(r.form_id),
+                    timestamp: now,
+                }
+            })
 
             await db.collection("responses").insertMany(responses)
         } catch (error) {

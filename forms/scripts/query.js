@@ -8,7 +8,7 @@ const client = new MongoClient(uri)
 async function run() {
     try {
 
-        const db = client.db("test")
+        const db = client.db("forms")
 
         const res = await db.collection("responses").aggregate().toArray()
         // console.log(res)
@@ -16,7 +16,7 @@ async function run() {
         const userId = "65632e0f9140911cb850c33c"
         const offset = 0
         const itemsPerPage = 5
-
+        db.collection("users").findOne()
         const forms = await db.collection("users").aggregate([
             { $match: { _id: new ObjectId(userId) } },
             {
