@@ -3,12 +3,6 @@
     mount_path: /data
   become: yes
   tasks:
-    - name: Install lsblk
-      ansible.builtin.package:
-        name:
-          - lsblk
-        state: latest
-
     - name: Get Linux device name for EBS volume
       ansible.builtin.shell:
         cmd: lsblk -o PATH,SERIAL | grep {{ ebs_volume_id | replace('-', '') }} | cut -d ' ' -f 1
