@@ -1,0 +1,128 @@
+- hosts: all
+  vars:
+    mount_path: /data
+  become: yes
+  tasks:
+    - name: Install lsblk
+      ansible.builtin.package:
+        name:
+          - lsblk
+        state: latest
+
+    - name: Get Linux device name for EBS volume
+      ansible.builtin.shell:
+        cmd: lsblk -o PATH,SERIAL | grep {{ ebs_volume_id | replace('-', '') }} | cut -d ' ' -f 1
+      register: lsblk_name
+
+    - name: Store EBS volume device name
+      ansible.builtin.set_fact:
+        ebs_volume_device_name: "{{ lsblk_name.stdout }}"
+
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ mount_path }}"
+        state: directory
+        mode: '0755'
+
+    - name: Create File System
+      community.general.filesystem:
+        fstype: ext4
+        dev: "{{ ebs_volume_device_name }}"
+
+    - name: Mount EBS Volume
+      ansible.posix.mount:
+        path: "{{ mount_path }}"
+        src: "{{ ebs_volume_device_name }}"
+        fstype: ext4
+        state: mounted
+
+    - name: Get Linux device UUID for EBS volume
+      ansible.builtin.shell:
+        cmd: lsblk -o SERIAL,UUID | grep {{ ebs_volume_id | replace('-', '') }} | cut -d ' ' -f 2
+      register: lsblk_uuid
+
+    - name: remove line not using UUID in /etc/fstab
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        state: absent
+        regexp: "^{{ ebs_volume_device_name }}"
+
+    - name: Store EBS volume device UUID
+      ansible.builtin.set_fact:
+        ebs_volume_device_uuid: "{{ lsblk_uuid.stdout }}"
+
+    - name: Add UUID to /etc/fstab
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        regexp: "^UUID={{ ebs_volume_device_uuid }}"
+        line: "UUID={{ebs_volume_device_uuid}} /data  ext4  defaults  0  2"
+
+    - name: Add Docker Module Repository
+      ansible.builtin.deb822_repository:
+        name: docker
+        types: [deb]
+        uris: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
+        signed_by: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+        suites: ["{{ ansible_distribution_release | lower }}"]
+        components: [stable]
+        state: present
+        enabled: yes
+
+    - name: Install Docker
+      ansible.builtin.package:
+        name:
+          - ca-certificates 
+          - curl 
+          - gnupg
+        state: latest
+
+    - name: Install Docker
+      ansible.builtin.package:
+        name:
+          - docker-ce 
+          - docker-ce-cli 
+          - containerd.io
+        state: latest
+        update_cache: true
+
+    - name: Ensure group "docker" exists
+      ansible.builtin.group:
+        name: docker
+        state: present
+
+    - name: Add the user to group "docker"
+      ansible.builtin.user:
+        name: "{{ user }}"
+        append: true
+        groups: docker
+
+    - name: Start Docker Service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install Cron
+      ansible.builtin.package:
+        name: cron
+        state: latest
+
+    - name: Start Cron Service
+      ansible.builtin.service:
+        name: cron
+        state: started
+        enabled: yes
+
+    - name: Install Certbot
+      ansible.builtin.package:
+        name: certbot
+        state: latest
+
+    - name: Obtain a certificate from Let's Encrypt
+      ansible.builtin.shell: |
+        certbot certonly --standalone -d {{ domain_name }} -n --agree-tos -m {{ email_address }}
+      args:
+        creates: /etc/letsencrypt/live/{{ domain_name }}
+      register: certbot_output
+      changed_when: "'Congratulations' in certbot_output.stdout"
+        

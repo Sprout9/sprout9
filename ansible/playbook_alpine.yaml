@@ -3,6 +3,12 @@
     mount_path: /data
   become: yes
   tasks:
+    - name: Install lsblk
+      ansible.builtin.package:
+        name:
+          - lsblk
+        state: latest
+
     - name: Get Linux device name for EBS volume
       ansible.builtin.shell:
         cmd: lsblk -o PATH,SERIAL | grep {{ ebs_volume_id | replace('-', '') }} | cut -d ' ' -f 1
@@ -51,36 +57,10 @@
         regexp: "^UUID={{ ebs_volume_device_uuid }}"
         line: "UUID={{ebs_volume_device_uuid}} /data  ext4  defaults  0  2"
 
-    - name: Add Docker Module Repository
-      ansible.builtin.deb822_repository:
-        name: docker
-        types: [deb]
-        uris: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
-        signed_by: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
-        suites: ["{{ ansible_distribution_release | lower }}"]
-        components: [stable]
-        state: present
-        enabled: yes
-    
-    - name: Update all packages
-      ansible.builtin.apt:
-        update_cache: yes
-        upgrade: yes
-
     - name: Install Docker
-      ansible.builtin.apt:
+      ansible.builtin.package:
         name:
-          - ca-certificates 
-          - curl 
-          - gnupg
-        state: latest
-
-    - name: Install Docker
-      ansible.builtin.apt:
-        name:
-          - docker-ce 
-          - docker-ce-cli 
-          - containerd.io
+          - docker
         state: latest
         update_cache: true
 
@@ -102,7 +82,7 @@
         enabled: yes
 
     - name: Install Cron
-      ansible.builtin.apt:
+      ansible.builtin.package:
         name: cron
         state: latest
 
@@ -113,13 +93,13 @@
         enabled: yes
 
     - name: Install Certbot
-      ansible.builtin.apt:
+      ansible.builtin.package:
         name: certbot
         state: latest
 
     - name: Obtain a certificate from Let's Encrypt
       ansible.builtin.shell: |
-        certbot certonly --standalone -d {{ domain_name }} -d sprout9.nl -n --agree-tos -m {{ email_address }}
+        certbot certonly --standalone -d {{ domain_name }} -n --agree-tos -m {{ email_address }}
       args:
         creates: /etc/letsencrypt/live/{{ domain_name }}
       register: certbot_output

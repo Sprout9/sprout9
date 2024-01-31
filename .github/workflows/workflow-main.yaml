@@ -79,7 +79,7 @@ jobs:
             --private-key /home/runner/.ssh/id_ed25519 \
             -u admin \
             -i ${GITHUB_WORKSPACE}/ip.txt \
-            playbook.yaml \
+            playbook_debian.yaml \
             --extra-vars "\
               domain_name=${{ vars.DOMAIN_NAME }} \
               email_address=${{ secrets.CERTBOT_EMAIL }} \
