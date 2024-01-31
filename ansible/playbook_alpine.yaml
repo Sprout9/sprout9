@@ -3,10 +3,18 @@
     mount_path: /data
   become: yes
   tasks:
+    - name: Update all packages
+      ansible.builtin.package:
+        update_cache: yes
+        upgrade: yes
+    
     - name: Install lsblk
       ansible.builtin.package:
         name:
           - lsblk
+          - busybox-openrc
+          - docker
+
         state: latest
 
     - name: Get Linux device name for EBS volume
@@ -56,13 +64,6 @@
         path: /etc/fstab
         regexp: "^UUID={{ ebs_volume_device_uuid }}"
         line: "UUID={{ebs_volume_device_uuid}} /data  ext4  defaults  0  2"
-
-    - name: Install Docker
-      ansible.builtin.package:
-        name:
-          - docker
-        state: latest
-        update_cache: true
 
     - name: Ensure group "docker" exists
       ansible.builtin.group:
