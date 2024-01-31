@@ -30,4 +30,4 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Start the Next.js app
-CMD ["npm", "start"]
+CMD ["npm", "start", "--", "--max-old-space-size=256"]
