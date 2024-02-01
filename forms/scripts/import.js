@@ -69,7 +69,7 @@ async function run() {
                 return {
                     ...r,
                     _id: new ObjectId(r._id),
-                    user_id: new ObjectId(r._user_id),
+                    user_id: new ObjectId(r.user_id),
                     form_id: new ObjectId(r.form_id),
                     timestamp: now,
                 }

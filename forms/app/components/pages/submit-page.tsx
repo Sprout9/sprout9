@@ -136,7 +136,7 @@ export function SubmitPageConfig({
             <FormattedTextConfig
                 text={attributes.title}
                 setText={(text) => setAttributes({ ...attributes, title: text })}
-                label="title"
+                label="title-(click-submit-to-show)"
             />
             <NullableConfig
                 nullableConfig={attributes.description}
@@ -146,7 +146,7 @@ export function SubmitPageConfig({
                 <FormattedTextConfig
                     text={attributes.description!}
                     setText={(text) => setAttributes({ ...attributes, description: text })}
-                    label="description"
+                    label="description-(click-submit-to-show)"
                 />
             </NullableConfig>
             <NullableConfig
