@@ -14,7 +14,7 @@ export const authConfig = {
             const isOnForms = nextUrl.pathname.startsWith('/forms')
             const isResponding = isRespondingRegex.test(nextUrl.pathname)
             const isOnAccount = nextUrl.pathname === '/account'
-            const isBase = nextUrl.pathname === ''
+            const isBase = nextUrl.pathname === '/'
 
             if (isResponding || isBase) return true
 
