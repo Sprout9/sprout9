@@ -34,6 +34,7 @@ services:
           memory: 1024M
 
   nginx:
+    container_name: nginx
     image: sprout9/nginx:latest
     ports:
       - "80:80"
