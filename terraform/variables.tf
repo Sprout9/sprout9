@@ -1,7 +1,7 @@
 variable "instance_type" {
   type        = string
   description = "AWS EC2 instance type"
-  default     = "t4g.micro"
+  default     = "t4g.small"
 }
 
 variable "volume_size" {
