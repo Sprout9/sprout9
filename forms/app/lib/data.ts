@@ -3,15 +3,16 @@
 import lazyClient, { getDbName } from '@/db/mongodb'
 import { ObjectId } from 'mongodb'
 import { unstable_noStore as noStore, revalidatePath } from 'next/cache'
-import { UserWithForm, Form, InputResponse, Response, isInputsPage, InputsPage, isTextAreaPage, TextAreaPage, User, ResponseWithId, UserWithForms, isMultipleChoicePage } from "@/app/lib/types"
+import { UserWithForm, Form, InputResponse, Response, isInputsPage, InputsPage, isTextAreaPage, TextAreaPage, User, ResponseWithId, UserWithForms, MultipleChoicePage, isMultipleChoicePage } from "@/app/lib/types"
 import sendMail from '@/app/lib/mailer'
 import { responseToCsv, responseToText, responseToHtml } from '@/app/lib/convert'
-import { redirect } from 'next/navigation'
-import { auth } from "@/auth"
+import { RedirectType, redirect } from 'next/navigation'
+import { FIVE_MINUTES_IN_MILLIS, auth, compareTemporaryPassword } from "@/auth"
 import { z } from 'zod'
 import bcrypt from 'bcrypt'
 import { DEFAULT_FORM } from '@/app/lib/default'
 import http from 'http'
+import { webcrypto } from 'crypto'
 
 type FormsTotal = {
     FormsTotal: number
@@ -93,6 +94,7 @@ export async function fetchFilteredForms(
                     "form.responses": { $size: "$responses" },
                 }
             },
+            { $sort: { "form.id": -1 } },
             { $project: { _id: 0, "form._id": 0 } },
         ]).toArray()
 
@@ -154,6 +156,16 @@ function parseResponseForm(form: Form): Response {
             }
         })
 
+    const parseMultipleChoicePage = (id: number, attr: MultipleChoicePage["attributes"]): InputResponse[] =>
+        attr.options.map((opt, index) => {
+            return {
+                page: id + 1,
+                input: index + 1,
+                question: attr.title?.text || "",
+                label: opt.text.text,
+                response: opt.checked ? "Checked" : "",
+            }
+        })
 
     const parseTextAreaPage = (id: number, attr: TextAreaPage["attributes"]): InputResponse[] => [
         {
@@ -173,6 +185,9 @@ function parseResponseForm(form: Form): Response {
         responses: form.pages.flatMap((page, index) => {
             if (isInputsPage(page)) {
                 return parseInputsPage(index, page.attributes)
+            }
+            else if (isMultipleChoicePage(page)) {
+                return parseMultipleChoicePage(index, page.attributes)
             }
             else if (isTextAreaPage(page)) {
                 return parseTextAreaPage(index, page.attributes)
@@ -520,7 +535,8 @@ export async function updateUser(
         ]).toArray()
 
         const passwordMatches = await bcrypt.compare(parsed.data.current_password, user[0].password)
-        if (!passwordMatches) {
+        const temporaryPasswordMatches = await compareTemporaryPassword(parsed.data.current_password, user[0].temporary_password)
+        if (!passwordMatches && !temporaryPasswordMatches) {
             return "wrong-password"
         }
 
@@ -558,13 +574,11 @@ export async function updateUser(
                 }
             )
         }
-
-        revalidatePath(`/account`)
     } catch (err) {
         console.error("Database Error", err)
         throw new Error("Failed to update form.")
     }
-
+    redirect("/forms", RedirectType.push)
 }
 
 export async function createUser(
@@ -606,12 +620,60 @@ export async function createUser(
                 password: newPasswordHash,
             }
         )
-        return "success"
     } catch (err) {
         console.error("Database Error", err)
         throw new Error("Failed to create user.")
     }
-
+    redirect("/login")
 }
 
+
+export async function createTemporaryPassword(email: string): Promise<void> {
+    noStore()
+    try {
+        const client = await lazyClient
+
+        const user = await client.db(dbName).collection("users").aggregate<User>([
+            { $match: { email: email } }
+        ]).toArray()
+
+        if (user.length == 0) {
+            return
+        }
+
+        const deadline = new Date().getTime() + FIVE_MINUTES_IN_MILLIS
+        const password = Buffer.from(webcrypto.getRandomValues(new Uint8Array(9))).toString("base64")
+        const newPasswordHash = await bcrypt.hash(password, 10)
+
+        await client.db(dbName).collection("users").updateOne(
+            { email: email },
+            {
+                $set: {
+                    temporary_password: {
+                        password: newPasswordHash,
+                        deadline: deadline,
+                    }
+                }
+            }
+        )
+
+        let url = process.env.NEXTAUTH_URL
+
+        let mail = {
+            to: email,
+            subject: "Temporary password",
+            text: `You clicked 'Forgot password'.\n\nYour temporary password is: ${password}\n\nThis password is valid for 5 minutes, please change your password at ${url}/account.`,
+            html: `<p>You clicked 'Forgot password'.</p><p>Your temporary password is: <b>${password}</b></p><p>This password is valid for 5 minutes, please change your password at <a href="${url}/account">${url}/account</a>.</p>`,
+            attachment: undefined,
+        }
+
+        await sendMail(mail)
+
+        return
+    } catch (err) {
+        console.error("Database Error", err)
+        throw new Error("Failed to create temporary password.")
+    }
+
+}
 

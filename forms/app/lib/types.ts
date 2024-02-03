@@ -7,12 +7,18 @@ export type Text = {
     color: string | undefined,
 }
 
+export type TemporaryPassword = {
+    password: string
+    deadline: number
+}
+
 export type User = {
     id: string
     email: string
     password: string
     first_name: string
     last_name: string
+    temporary_password: TemporaryPassword | undefined
 }
 
 export type CoverPage = {

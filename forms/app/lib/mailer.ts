@@ -23,7 +23,7 @@ export default async function sendMail({
     subject: string,
     text: string,
     html: string,
-    attachment: { filename: string, content: string },
+    attachment: { filename: string, content: string } | undefined,
 }): Promise<{ message?: string, error?: string }> {
     let options: Mail.Options = {
         from: user,
@@ -31,9 +31,9 @@ export default async function sendMail({
         subject: subject,
         text: text,
         html: html,
-        attachments: [
+        attachments: attachment ? [
             attachment
-        ]
+        ] : []
     }
 
     let transporter = nodemailer.createTransport({

@@ -1,9 +1,9 @@
 import NextAuth, { DefaultSession } from "next-auth"
-import { authConfig } from './auth.config'
+import { authConfig } from '@/auth.config'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import lazyClient, { getDbName } from '@/db/mongodb'
 import { z } from 'zod'
-import type { User } from './app/lib/types'
+import type { TemporaryPassword, User } from '@/app/lib/types'
 import bcrypt from 'bcrypt'
 
 
@@ -29,6 +29,23 @@ async function getUser(email: string): Promise<User | undefined> {
     }
 }
 
+export const FIVE_MINUTES_IN_MILLIS = 1000 * 60 * 5
+
+export async function compareTemporaryPassword(password: string, temporary_password: TemporaryPassword | undefined): Promise<boolean> {
+    if (!temporary_password) {
+        return false
+    }
+    const now = new Date().getTime()
+    if (temporary_password.deadline < now) {
+        return false
+    }
+    if (temporary_password.deadline > now + FIVE_MINUTES_IN_MILLIS) {
+        console.error("Temporary password deadline > 5 minutes in the future, this should not be possible.")
+        return false
+    }
+    return await bcrypt.compare(password, temporary_password.password)
+}
+
 export const { auth, signIn, signOut } = NextAuth({
     ...authConfig,
     providers: [
@@ -46,8 +63,9 @@ export const { auth, signIn, signOut } = NextAuth({
                         return null
                     }
                     const passwordsMatch = await bcrypt.compare(password, user.password)
+                    const temporaryPasswordMatch = await compareTemporaryPassword(password, user.temporary_password)
 
-                    if (passwordsMatch) {
+                    if (passwordsMatch || temporaryPasswordMatch) {
                         return user
                     }
                 }

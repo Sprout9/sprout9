@@ -13,7 +13,7 @@ export const authConfig = {
             const isOnForms = nextUrl.pathname.startsWith('/forms')
             const isResponding = isRespondingRegex.test(nextUrl.pathname)
             const isOnAccount = nextUrl.pathname === '/account'
-            // console.log(nextUrl.pathname, isLoggedIn, isOnForms, isResponding, auth?.user)
+
             if (isOnForms || isOnAccount) {
                 if (isResponding || isLoggedIn) return true
                 return false // Redirect unauthenticated users to login page

@@ -31,7 +31,7 @@ export default async function FormsTable({
         <div key={5}></div>
     ]
 
-    const itemsPerPage = 6
+    const itemsPerPage = 10
 
     const forms = await fetchFilteredForms(itemsPerPage, query, currentPage)
     const tableRows = forms.map(form => {

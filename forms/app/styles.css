@@ -1297,7 +1297,8 @@ main {
             line-height: var(--line-2xl);
         }
 
-        & .submitted {
+        & .submitted,
+        .forgot-password-submitted {
             display: none;
         }
 
@@ -1337,13 +1338,13 @@ main {
             }
         }
 
-        & a {
+        & a,
+        button {
             margin-top: 1.5rem;
         }
 
         & .error {
             pointer-events: none;
-            color: var(--error);
             font-size: var(--font-xs);
             line-height: var(--line-xs);
         }
@@ -1430,9 +1431,26 @@ main {
         border-color: var(--error);
 
         &~.error {
+            color: var(--error);
             visibility: visible;
         }
     }
+}
+
+.forgot-password-submitted:not(:checked)~.forgot-password {
+    visibility: hidden;
+}
+
+.forgot-password-submitted:checked~.forgot-password {
+    visibility: visible;
+}
+
+.error {
+    color: var(--error);
+}
+
+.forgot-password {
+    color: var(--white);
 }
 
 .logout-button {
@@ -1577,4 +1595,41 @@ main {
 
 .w-full {
     width: 100%;
+}
+
+.documentation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 3rem;
+
+    & article {
+        max-width: 35rem;
+
+        & section {
+            margin-top: 1.5rem;
+        }
+
+        & h2 {
+            font: var(--font-2xl) / var(--line-2xl) var(--sans-serif);
+
+            &:first-child {
+                margin-bottom: 0.25rem;
+            }
+        }
+
+        & h3 {
+            font: var(--font-lg) / var(--line-lg) var(--sans-serif);
+
+            &:first-child {
+                margin-bottom: 0.25rem;
+            }
+        }
+
+        & p {
+            font: var(--font-sm) / var(--line-sm) var(--sans-serif);
+        }
+    }
 }

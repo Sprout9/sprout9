@@ -2,7 +2,6 @@
 
 import { useFormState, useFormStatus } from "react-dom";
 import { ArrowRightIcon, AtSymbolIcon, KeyIcon, UserCircleIcon } from "@/app/components/icons";
-import { redirect } from "next/navigation";
 
 export default function CreateAccountForm({
     createUser
@@ -12,10 +11,6 @@ export default function CreateAccountForm({
     const [state, action] = useFormState(createUser, undefined);
 
     const { pending } = useFormStatus()
-
-    if (state === "success") {
-        redirect(`/login`)
-    }
 
     return (
         <form action={action} noValidate className="login-form">
