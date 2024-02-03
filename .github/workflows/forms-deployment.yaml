@@ -87,3 +87,4 @@ jobs:
           docker system df
           docker image prune -a -f
           docker system df
+          docker container stats
