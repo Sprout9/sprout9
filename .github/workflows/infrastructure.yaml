@@ -8,6 +8,7 @@ on:
     paths:
       - 'ansible/**'
       - 'terraform/**'
+      - '.github/workflows/infrastructure.yaml'
 
 jobs:
   apply_terraform_changes:
