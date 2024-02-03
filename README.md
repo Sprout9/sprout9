@@ -24,6 +24,7 @@ npm run dev
 ```
 then visit http://localhost:3000
 
+
 ## Updating
 These are the different updating workflows
 - `.github/workflows/infrastructure.yaml`
