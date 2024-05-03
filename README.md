@@ -53,3 +53,11 @@ Any commit with changes to `./nginx` will update the container image in DockerHu
 
 ### Deploying
 The forms app workflow will always run to check if the latest container image is running and update accordingly.
+
+### Replace tags
+```bash
+git tag -d v0.1.0
+git push -d origin v0.1.0
+git tag v0.1.0
+git push origin --tags
+```
