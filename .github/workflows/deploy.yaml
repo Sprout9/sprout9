@@ -43,8 +43,8 @@ jobs:
         run: |
           docker context create remote --docker "host=ssh://${{ secrets.REMOTE_USER }}@${{ vars.DOMAIN_NAME }}"
           docker context use remote
-          docker-compose pull
-          docker-compose up -d
+          docker compose pull
+          docker compose up -d
           docker system df
           docker image prune -a -f
           docker system df
