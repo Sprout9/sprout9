@@ -1,6 +1,7 @@
 name: Sprout9 Forms App Tags Workflow
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*'
