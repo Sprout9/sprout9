@@ -1,0 +1,51 @@
+name: Sprout9 Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy_to_instance:
+    name: Deploy latest forms app version to instance Docker
+    runs-on: ubuntu-latest
+    env:
+      MONGO_INITDB_ROOT_USERNAME: "${{ secrets.MONGO_INITDB_ROOT_USERNAME }}"
+      MONGO_INITDB_ROOT_PASSWORD: "${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}"
+      MONGODB_URI: "mongodb://${{ secrets.MONGO_INITDB_ROOT_USERNAME }}:${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}@mongodb:27017/?authSource=admin"
+      NODEMAILER_USER: "${{ vars.NODEMAILER_USER }}"
+      NODEMAILER_PASS: "${{ secrets.NODEMAILER_PASS }}"
+      NEXTAUTH_SECRET: "${{ secrets.NEXTAUTH_SECRET }}"
+      NEXTAUTH_URL: "${{ vars.HTTPS_DOMAIN_NAME }}"
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        
+      - name: Download IP artifact
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Setup SSH
+        shell: bash
+        run: |
+          eval `ssh-agent -s`
+          mkdir -p /home/runner/.ssh/
+          echo -e "${{ secrets.ED25519_PRIVATE_KEY }}" > /home/runner/.ssh/id_ed25519
+          chmod 700 /home/runner/.ssh/id_ed25519
+          ssh-keyscan -t rsa,dsa,ecdsa,ed25519 ${{ vars.DOMAIN_NAME }} >> /home/runner/.ssh/known_hosts
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+      - name: Deploy
+        run: |
+          docker context create remote --docker "host=ssh://${{ secrets.REMOTE_USER }}@${{ vars.DOMAIN_NAME }}"
+          docker context use remote
+          docker-compose pull
+          docker-compose up -d
+          docker system df
+          docker image prune -a -f
+          docker system df
+          docker container stats --no-stream
