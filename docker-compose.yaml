@@ -18,6 +18,10 @@ services:
       resources:
         limits:
           memory: 1024M
+    logging:
+      options:
+        max-size: 10M
+        max-file: 3
 
   mongodb:
     image: mongo:latest
@@ -32,6 +36,10 @@ services:
       resources:
         limits:
           memory: 1024M
+    logging:
+      options:
+        max-size: 10M
+        max-file: 3
 
   nginx:
     container_name: nginx
@@ -44,3 +52,7 @@ services:
     volumes:
       - /etc/letsencrypt:/etc/nginx/certs:ro
     restart: unless-stopped
+    logging:
+      options:
+        max-size: 10M
+        max-file: 3
